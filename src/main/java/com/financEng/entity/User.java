@@ -1,5 +1,7 @@
 package com.financEng.entity;
 
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -82,7 +84,7 @@ public class User {
 
 	public User() {}
 
-	public Long getId() {
+    public Long getId() {
 		return id;
 	}
 
@@ -178,23 +180,30 @@ public class User {
         this.expireDate = expireDate;
     }
 
+    /** Add Roles if is not exist **/
     public void addRoles(String roleName) {
-		if (this.roles == null || this.roles.isEmpty()) 
+		if (this.roles == null || this.roles.isEmpty())
 			this.roles = new HashSet<>();
 		this.roles.add(new Role(roleName));
 	}
 
+	/** Get My Roles in String **/
+	public String getMyRole (Set<Role> roles) {
+	    String myRole = "";
+        for (Role role : roles) {
+            myRole = role.getRole();
+        }
+        return myRole;
+    }
+
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
-                ", fName='" + fName + '\'' +
-                ", sName='" + sName + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", userGender=" + userGender +
-                ", roles=" + roles +
-                ", activation='" + activation + '\'' +
+                "fName='" + fName +
+                ", sName='" + sName +
+                ", email='" + email +
+                ", userGender='" + userGender +
+                ", roles=" + getMyRole(roles) +
                 ", enabled=" + enabled +
                 ", locked=" + locked +
                 ", creationDate=" + creationDate +

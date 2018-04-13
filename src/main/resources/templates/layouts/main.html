@@ -3,6 +3,7 @@
 	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
 <head>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -20,6 +21,7 @@
 	  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 	<![endif]-->
 </head>
+
 <body>
 
 	<div class="container">
@@ -31,6 +33,7 @@
 				        <li class="active"><a href="/">Kezdőoldal</a></li>
 				        <li class=""><a href="/stories">Sztorik</a></li>
 				        <li class=""><a href="/bloggers">Bloggerek</a></li>
+						<li class=""><a href="/dev/userprofile">User Profile</a></li>
 				    </ul>
 				    <div class="navbar-text navbar-right">
 				    Üdvözlünk <span sec:authentication="name">Anonymous </span>

@@ -34,7 +34,9 @@ public class HomeController {
 	public void setUserService(UserService userService) {
 		this.userService = userService;
 	}
-	
+
+	/** Oldal elérhetőségek **/
+
 	@RequestMapping("/")
 	public String home(){
 		return "index";
@@ -49,6 +51,13 @@ public class HomeController {
 	public String stories(){
 		return "stories";
 	}
+
+    @RequestMapping("/userprofile")
+    public String userprofile(@ModelAttribute User user, Model model){
+	    user = userService.findByEmail(user.getEmail());
+        model.addAttribute("profileDetails",user);
+        return "userprofile";
+    }
 	
 	@RequestMapping("/registration")
 	public String registration(Model model){
@@ -57,7 +66,9 @@ public class HomeController {
 		model.addAttribute("genders",User.Gender.values());
 		return "registration";
 	}
-	
+
+	/** Rest Controllerek **/
+
 	@RequestMapping(value = "/reg", method = RequestMethod.POST)
     public String reg(@ModelAttribute User user) {
 		log.info("Uj user!");
