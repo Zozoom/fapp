@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="hu" layout:decorator="layouts/main" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:mvc="http://www.springframework.org/schema/mvc">
+
+<head>
+    <link rel="stylesheet" href="/static/css/profileCard.css" th:href="@{/css/profileCard.css}"/>
+    <mvc:resources mapping="/resources/" location="/resources/" />
+</head>
+
+<body>
+		
+	<div layout:fragment="loginContent">
+
+        <h2 style="text-align:center">User Profile Card</h2>
+        <br/>
+
+        <div class="card">
+
+            <div class="imageDiv">
+                <div th:switch="${profileDetails.userGender}">
+                    <img th:case="'Male'" th:src="@{/images/men.png}" alt="profilePicture" style="width: 40%;height: 40%;"/>
+                    <img th:case="'Female'" th:src="@{/images/women.png}" alt="profilePicture" style="width: 40%;height: 40%;"/>
+                </div>
+            </div>
+
+            <table>
+                <tr>
+                    <td class="tableLeft">
+                        <label>User ID:</label>
+                    </td>
+                    <td class="tableRight">
+                        <p class="tabel" th:value="${profileDetails.id}" th:text="${profileDetails.id}">temp</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tableLeft">
+                        <label>Name:</label>
+                    </td>
+                    <td class="tableRight">
+                        <p class="tabel" th:value="${profileDetails.fName}+' '+${profileDetails.sName}" th:text="${profileDetails.fName}+' '+${profileDetails.sName}">temp</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tableLeft">
+                        <label class="tabel">Password:</label>
+                    </td>
+                    <td class="tableRight">
+                        <p class="tabel" th:value="${profileDetails.password}" th:text="${profileDetails.password}">temp</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tableLeft">
+                        <label class="tabel">Gender:</label>
+                    </td>
+                    <td class="tableRight">
+                        <p class="tabel" th:value="${profileDetails.userGender}" th:text="${profileDetails.userGender}">temp</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tableLeft">
+                        <label class="tabel">Role:</label>
+                    </td>
+                    <td class="tableRight">
+                        <p class="tabel" th:value="${profileDetails.getMyRole(profileDetails.roles)}" th:text="${profileDetails.getMyRole(profileDetails.roles)}">temp</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tableLeft">
+                        <label class="tabel">Email:</label>
+                    </td>
+                    <td class="tableRight">
+                        <p class="tabel" th:value="${profileDetails.email}" th:text="${profileDetails.email}">temp</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tableLeft">
+                        <label class="tabel">User enabled:</label>
+                    </td>
+                    <td class="tableRight">
+                        <p class="tabel" th:value="${profileDetails.enabled ? 'Yes': 'No'}" th:text="${profileDetails.enabled ? 'Yes': 'No'}">temp</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tableLeft">
+                        <label class="tabel">Creation Date:</label>
+                    </td>
+                    <td class="tableRight">
+                        <p class="tabel" th:value="${profileDetails.creationDate}" th:text="${profileDetails.creationDate}">temp</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tableLeft">
+                        <label class="tabel">Expiration Date:</label>
+                    </td>
+                    <td class="tableRight">
+                        <p class="tabel" th:value="${profileDetails.expireDate}" th:text="${profileDetails.expireDate}">temp</p>
+                    </td>
+                </tr>
+            </table>
+
+            <div style="margin: 24px 0;">
+                <a href="#"><i class="fa fa-dribbble"></i></a>
+                <a href="#"><i class="fa fa-twitter"></i></a>
+                <a href="#"><i class="fa fa-linkedin"></i></a>
+                <a href="#"><i class="fa fa-facebook"></i></a>
+            </div>
+
+            <div>
+                <button>Change Details</button>
+                <button>Delete Account</button>
+            </div>
+
+        </div>
+
+	</div>
+		
+</body>
+</html>

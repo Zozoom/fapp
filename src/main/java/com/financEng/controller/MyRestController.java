@@ -9,7 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import javax.servlet.http.HttpServletResponse;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -37,7 +37,9 @@ public class MyRestController {
             return user.getfName();
         }
         else
-            return "You are not logged in...";
+            return "You are not logged in... ";
+
+
     }
 
 }

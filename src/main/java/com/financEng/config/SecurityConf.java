@@ -14,14 +14,15 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 @Configuration
 public class SecurityConf extends WebSecurityConfigurerAdapter {
 
-	@Bean
-	public UserDetailsService userDetailsService() {
-	    return super.userDetailsService();
-	}
+//
+//	@Bean
+//	public UserDetailsService userDetailsService() {
+//	    return super.userDetailsService();
+//	}
 
-	@Autowired
+    @Autowired
 	private UserDetailsService userService;
-	
+
 	@Autowired
 	public void configureAuth(AuthenticationManagerBuilder auth) throws Exception{
 		auth.userDetailsService(userService);
@@ -36,7 +37,6 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
 				.antMatchers("/registration").permitAll()
 				.antMatchers("/reg").permitAll()
 				.antMatchers("/activation/**").permitAll()
-				.antMatchers("/dev/**").permitAll()
 				.anyRequest().authenticated()
 				.and()
 			.formLogin()

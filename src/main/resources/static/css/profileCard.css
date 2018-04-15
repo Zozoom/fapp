@@ -1,0 +1,70 @@
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3);
+    max-width: 500px;
+    margin: auto;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.1);
+    font-size: 18px;
+    color: #000000;
+}
+
+.tableLeft{
+    font-size: 17px;
+    text-align: right;
+}
+
+.tableRight{
+    font-size: 19px;
+    text-align: left;
+}
+
+.imageDiv{
+    margin: auto;
+    width: 100%;
+    padding: 5px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 85%;
+    margin: auto;
+}
+
+th, td {
+    padding: 2px;
+    border-bottom: 1px solid #606060;
+}
+
+button {
+    border: none;
+    outline: 0;
+    display: inline-block;
+    padding: 8px;
+    background-color: #000;
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+    color: white;
+}
+
+p{
+    padding: 4px;
+    margin: auto !important;
+}
+
+label {
+    margin-bottom: auto !important;
+    padding: 4px;
+    /*font-weight: normal !important;*/
+
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+button:hover, a:hover {
+    opacity: 0.7;
+}

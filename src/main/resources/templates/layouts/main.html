@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"
-	xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org"
-	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+      xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 
 <head>
 	<meta charset="utf-8" />
@@ -10,7 +9,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<title>SFJ - Egy sztori minden napra</title>
 	
-	<link rel="stylesheet" href="../static/css/blog.css" th:href="@{/css/blog.css}"/>
+	<link rel="stylesheet" href="/static/css/blog.css" th:href="@{/css/blog.css}"/>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
 		
 	<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css' />	
@@ -33,7 +32,8 @@
 				        <li class="active"><a href="/">Kezdőoldal</a></li>
 				        <li class=""><a href="/stories">Sztorik</a></li>
 				        <li class=""><a href="/bloggers">Bloggerek</a></li>
-						<li class=""><a href="/dev/userprofile">User Profile</a></li>
+						<li class=""><a href="/userprofile">UserProfile</a></li>
+						<li class=""><a href="/dev/userprofile">RestProfile</a></li>
 				    </ul>
 				    <div class="navbar-text navbar-right">
 				    Üdvözlünk <span sec:authentication="name">Anonymous </span>
@@ -58,5 +58,6 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" ></script>
+
 </body>
 </html>
