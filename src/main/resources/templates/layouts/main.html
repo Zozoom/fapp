@@ -36,7 +36,7 @@
 						<li class=""><a href="/dev/userprofile">RestProfile</a></li>
 				    </ul>
 				    <div class="navbar-text navbar-right">
-				    Üdvözlünk <span sec:authentication="name">Anonymous </span>
+				    Üdvözlünk <span sec:authentication="name"> Anonymous </span> |
 			           <form sec:authorize="isAuthenticated()" id="frmlogout" th:action="@{/logout}" method="post" class="form-inline">
 				    		| <a href="javascript:{}" onclick="document.getElementById('frmlogout').submit(); return false;">Kijelentkezés</a>
 				      </form>

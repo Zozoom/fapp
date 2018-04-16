@@ -61,7 +61,9 @@ public class HomeController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
 		if (!(auth instanceof AnonymousAuthenticationToken)){
-			user = userService.findByEmail(auth.getName());
+		    String fname = auth.getName().split(" ")[0];
+            String sname = auth.getName().split(" ")[1];
+			user = userService.findByName(fname,sname);
 		}
 		else {
 			user = new User();

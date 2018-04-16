@@ -32,9 +32,11 @@ public class MyRestController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         if (!(auth instanceof AnonymousAuthenticationToken)){
-            user = userService.findByEmail(auth.getName());
-            System.out.println(user.toString());
-            return user.getfName();
+            String fname = auth.getName().split(" ")[0];
+            String sname = auth.getName().split(" ")[1];
+            user = userService.findByName(fname,sname);
+            System.out.println("Here is the user: "+user.toString());
+            return user.getfName()+" "+user.getsName();
         }
         else
             return "You are not logged in... ";

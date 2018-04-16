@@ -13,7 +13,7 @@ import com.financEng.entity.User;
 
 public class UserDetailsImpl implements UserDetails {
 
-//	private static final long serialVersionUID = 3185970362329652822L;
+	private static final long serialVersionUID = 3185970362329652822L;
 
 	private User user;
 
@@ -37,9 +37,12 @@ public class UserDetailsImpl implements UserDetails {
 	}
 
 	@Override
-	public String getUsername() {
-		return user.getEmail();
-	}
+	public String getUsername() { return user.getfName()+" "+user.getsName(); }
+
+
+    public String getUserEmail() {
+        return user.getEmail();
+    }
 
 	@Override
 	public boolean isAccountNonExpired() {
@@ -47,9 +50,7 @@ public class UserDetailsImpl implements UserDetails {
 	}
 
 	@Override
-	public boolean isAccountNonLocked() {
-		return true;
-	}
+	public boolean isAccountNonLocked() { return !user.getLocked();	}
 
 	@Override
 	public boolean isCredentialsNonExpired() {
