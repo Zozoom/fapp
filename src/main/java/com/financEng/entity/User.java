@@ -1,21 +1,9 @@
 package com.financEng.entity;
 
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-
+import javax.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
-import javax.persistence.JoinColumn;
 
 @Entity
 @Table( name="users" )
@@ -67,7 +55,7 @@ public class User {
     )
     private Set<Role> roles = new HashSet<Role>();
 
-    @Column(name = "Activation_Code", nullable=false)
+    @Column(name = "Activation_Code")
 	private String activation;
 
     @Column(name = "Enabled", nullable=false)
@@ -199,7 +187,8 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "fName='" + fName +
+                " id: "+id+
+                " fName='" + fName +
                 ", sName='" + sName +
                 ", email='" + email +
                 ", userGender='" + userGender +

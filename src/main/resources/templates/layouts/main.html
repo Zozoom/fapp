@@ -24,19 +24,18 @@
 <body>
 
 	<div class="container">
-  		 
 		<nav class="navbar navbar-default">
 		    <div class="container-fluid">
 		       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				    <ul class="nav navbar-nav">
 				        <li class="active"><a href="/">Kezdőoldal</a></li>
-				        <li class=""><a href="/stories">Sztorik</a></li>
-				        <li class=""><a href="/bloggers">Bloggerek</a></li>
+				        <!--<li class=""><a href="/stories">Sztorik</a></li>-->
+				        <!--<li class=""><a href="/bloggers">Bloggerek</a></li>-->
 						<li class=""><a href="/userprofile">UserProfile</a></li>
-						<li class=""><a href="/dev/userprofile">RestProfile</a></li>
+						<!--<li class=""><a href="/dev/userprofile">RestProfile</a></li>-->
 				    </ul>
 				    <div class="navbar-text navbar-right">
-				    Welcome dear <span sec:authentication="name">Guest</span>
+				    Welcome dear <span sec:authentication="name"> Guest </span>
 			           <form sec:authorize="isAuthenticated()" id="frmlogout" th:action="@{/logout}" method="post" class="form-inline">
                            <a href="javascript:{}" onclick="document.getElementById('frmlogout').submit(); return false;">Logout</a>
 				      </form>
@@ -49,9 +48,9 @@
 		</div>
 
 
-		<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>		
+		<br/><br/>
 		<footer>
-			<p>San Franciscoból Jöttem - Az eredeti template összeállítója: http://therealdanvega.com</p>
+			<p>This is the foooter...</p>
 		</footer>
 	
 	</div>

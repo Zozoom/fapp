@@ -29,6 +29,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 	private final String USER_ROLE = "USER";
 
+    /***********************************************************/
+    /**  **/
+    /***********************************************************/
+
 	@Autowired
 	public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository) {
 		this.userRepository = userRepository;
@@ -44,6 +48,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		return new UserDetailsImpl(user);
 	}
 
+	/*******************************************/
+	/** Find users by something **/
+    /*******************************************/
+
 	@Override
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
@@ -54,7 +62,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return userRepository.findByFNameAndSName(fname,sname);
     }
 
+    /*******************************************/
+    /** Function methods **/
+    /*******************************************/
 
+    /**
+     * This method register a new user.
+     * */
     @Override
 	public String registerUser(User userToRegister) {
 		User userCheck = userRepository.findByEmail(userToRegister.getEmail());
@@ -100,19 +114,42 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		return "ok";
 	}
 
-	public String generateKey()
-    {
-		String key = "";
-		Random random = new Random();
-		char[] word = new char[16]; 
-		for (int j = 0; j < word.length; j++) {
-			word[j] = (char) ('a' + random.nextInt(26));
-		}
-		String toReturn = new String(word);
-		log.debug("random code: " + toReturn);
-		return new String(word);
+	/**
+     * This method save the modified user.
+     * */
+    @Override
+    public String saveUserModify(User modifiedUser) {
+        User userCheck = userRepository.findById(modifiedUser.getId());
+
+        /** Check user is exist or not * */
+        if (userCheck == null)
+            return "User cannot Find!";
+
+        /** User FName **/
+        userCheck.setfName(modifiedUser.getfName());
+
+        /** User SName **/
+        userCheck.setsName(modifiedUser.getsName());
+
+        /** User Email **/
+        userCheck.setEmail(modifiedUser.getEmail());
+
+        /** User Gender **/
+        userCheck.setUserGender(modifiedUser.getUserGender());
+
+        /** User Save **/
+        userRepository.save(userCheck);
+
+        log.debug("Saving was successfull.");
+
+        /** Return with what... **/
+        return "logout";
     }
 
+
+    /**
+     * This method generate the activation code.
+     * */
 	@Override
 	public String userActivation(String code) {
 		User user = userRepository.findByActivation(code);
@@ -125,4 +162,23 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		return "ok";
 	}
 
+    /*******************************************/
+    /** Private methods **/
+    /*******************************************/
+
+    /**
+     * Thos genereated the activation code itself.
+     * */
+    private String generateKey()
+    {
+        String key = "";
+        Random random = new Random();
+        char[] word = new char[16];
+        for (int j = 0; j < word.length; j++) {
+            word[j] = (char) ('a' + random.nextInt(26));
+        }
+        String toReturn = new String(word);
+        log.debug("random code: " + toReturn);
+        return new String(word);
+    }
 }

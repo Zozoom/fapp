@@ -1,10 +1,8 @@
 <!DOCTYPE html>
-<html lang="hu" layout:decorator="layouts/main" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:mvc="http://www.springframework.org/schema/mvc">
+<html lang="hu" layout:decorator="layouts/main" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <link rel="stylesheet" href="/static/css/profileCard.css" th:href="@{/css/profileCard.css}"/>
-    <mvc:resources mapping="/resources/" location="/resources/" />
 </head>
 
 <body>
@@ -20,44 +18,64 @@
                 <div th:switch="${profileDetails.userGender}">
                     <img th:case="'Male'" th:src="@{/images/men.png}" alt="profilePicture" style="width: 40%;height: 40%;"/>
                     <img th:case="'Female'" th:src="@{/images/women.png}" alt="profilePicture" style="width: 40%;height: 40%;"/>
+                    <img th:case="'Unknown'" th:src="@{/images/questionMen.png}" alt="profilePicture" style="width: 40%;height: 40%;"/>
                 </div>
+
+                <form name="saveUserChanges" th:action="@{/saveUserChanges}" th:object="${profileDetails}" method="post" class="form-signin">
+                    <br/>
+                    <table>
+                        <tr type="hidden">
+                            <input type="hidden" th:field="*{id}" />
+                        </tr>
+                        <tr>
+                            <td class="tableLeft">
+                                <label>First Name:</label>
+                            </td>
+                            <td class="tableRight">
+                                <input type="text" id="fName" name="fName" th:field="*{fName}"  th:value="*{fName}" class="form-control" placeholder="First Name" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tableLeft">
+                                <label>Sure Name:</label>
+                            </td>
+                            <td class="tableRight">
+                                <input type="text" id="sName" name="sName" th:field="*{sName}"  th:value="*{fName}" class="form-control" placeholder="Sure Name" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tableLeft">
+                                <label>Email:</label>
+                            </td>
+                            <td class="tableRight">
+                                <input type="text" id="email" name="email" th:field="*{email}"  th:value="*{email}" class="form-control" placeholder="Email" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tableLeft">
+                                <label>Gender:</label>
+                            </td>
+                            <td class="tableRight">
+                                <select th:field="*{userGender}">
+                                    <option th:each="gendre : ${genders}" th:value="${gendre}" th:text="${gendre}" >GenderName</option>
+                                </select>
+                            </td>
+                        </tr>
+
+                    </table>
+
+                    <div>
+                        <button type="submit">
+                            Save Changes
+                        </button>
+                        <button type="button" onclick="window.location.href='/userprofile'">
+                            Cancel Changes
+                        </button>
+                    </div>
+
+                </form>
             </div>
-
-            <form name="saveUserChanges" th:action="@{/saveChange}" th:object="${profileDetails}" method="post" class="form-signin">
-                <br/>
-                <table>
-                    <tr type="hidden">
-                        <input type="hidden" th:field="*{id}" />
-                        <input type="hidden" th:field="*{userGender}" />
-                    </tr>
-                    <tr>
-                        <td class="tableLeft">
-                            <label>First Name:</label>
-                        </td>
-                        <td class="tableRight">
-                            <input type="text" id="fName" name="fName" th:field="*{fName}"  th:value="*{fName}" class="form-control" placeholder="First Name"  />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="tableLeft">
-                            <label>Sure Name:</label>
-                        </td>
-                        <td class="tableRight">
-                            <input type="text" id="sName" name="sName" th:field="*{sName}"  th:value="*{fName}" class="form-control" placeholder="Sure Name"  />
-                        </td>
-                    </tr>
-                </table>
-
-                <div>
-                    <button type="submit">Save</button>
-                    <button>Cancel</button>
-                </div>
-            </form>
-
-
         </div>
-
 	</div>
-		
 </body>
 </html>

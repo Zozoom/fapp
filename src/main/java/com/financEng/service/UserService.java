@@ -6,10 +6,12 @@ public interface UserService {
 	
 	String registerUser(User user);
 
+    String saveUserModify(User user);
+
 	User findByEmail(String email);
 
 	User findByName(String fname,String sname);
 
-	String userActivation(String code);
+    String userActivation(String code);
 	
 }

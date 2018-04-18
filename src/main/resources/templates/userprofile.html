@@ -1,10 +1,8 @@
 <!DOCTYPE html>
-<html lang="hu" layout:decorator="layouts/main" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:mvc="http://www.springframework.org/schema/mvc">
+<html lang="hu" layout:decorator="layouts/main" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <link rel="stylesheet" href="/static/css/profileCard.css" th:href="@{/css/profileCard.css}"/>
-    <mvc:resources mapping="/resources/" location="/resources/" />
 </head>
 
 <body>
@@ -12,7 +10,6 @@
 	<div layout:fragment="loginContent">
 
         <h2 style="text-align:center">User Profile Card</h2>
-        <br/>
 
         <div class="card">
 
@@ -20,6 +17,7 @@
                 <div th:switch="${profileDetails.userGender}">
                     <img th:case="'Male'" th:src="@{/images/men.png}" alt="profilePicture" style="width: 40%;height: 40%;"/>
                     <img th:case="'Female'" th:src="@{/images/women.png}" alt="profilePicture" style="width: 40%;height: 40%;"/>
+                    <img th:case="'Unknown'" th:src="@{/images/questionMen.png}" alt="profilePicture" style="width: 40%;height: 40%;"/>
                 </div>
             </div>
 
@@ -99,8 +97,15 @@
             </table>
 
             <div>
-                <button><a href="/changeuserprof">Change Details</a></button>
-                <button>Delete Account</button>
+                <button type="button" onclick="window.location.href='/changeuserprof'">
+                    Change Details
+                </button>
+                <button type="button" onclick="window.location.href='/deleteAccount'">
+                    Delete Account
+                </button>
+                <button type="button" onclick="window.location.href='/'">
+                    Go back
+                </button>
             </div>
 
         </div>

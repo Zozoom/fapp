@@ -1,7 +1,7 @@
 package com.financEng.repo;
-import org.springframework.data.repository.CrudRepository;
 
 import com.financEng.entity.User;
+import org.springframework.data.repository.CrudRepository;
 
 public interface UserRepository extends CrudRepository<User, Long> {
 
@@ -10,5 +10,8 @@ public interface UserRepository extends CrudRepository<User, Long> {
 	User findByActivation(String code);
 
 	User findByFNameAndSName(String fname,String sname);
+
+	User findById(Long id);
+
 	
 }
