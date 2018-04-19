@@ -19,6 +19,11 @@
     text-align: left;
 }
 
+.tableCenter{
+    font-size: 18px;
+    text-align: center;
+}
+
 .imageDiv{
     margin: auto;
     width: 100%;
@@ -70,8 +75,17 @@ div.card a:link, a:visited, a:active {
     text-decoration: none !important;
 }
 
-div.card  button:hover, a:hover{
+div.card button:hover, a:hover{
     color: white;
     opacity: 0.7;
     text-decoration: underline !important;
+}
+
+div.card a.sublinks, a.sublinks:link, a.sublinks:active, a.sublinks:visited{
+    color: #0083a0 !important;
+    text-decoration: none !important;
+}
+
+div.card a.sublinks:hover{
+    font-weight: bold !important;
 }

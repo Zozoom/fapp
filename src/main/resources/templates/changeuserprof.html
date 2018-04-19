@@ -21,7 +21,7 @@
                     <img th:case="'Unknown'" th:src="@{/images/questionMen.png}" alt="profilePicture" style="width: 40%;height: 40%;"/>
                 </div>
 
-                <form name="saveUserChanges" th:action="@{/saveUserChanges}" th:object="${profileDetails}" method="post" class="form-signin">
+                <form name="saveUserChanges" th:action="@{/saveUserChanges}" th:object="${profileDetails}" method="post">
                     <br/>
                     <table>
                         <tr type="hidden">
@@ -32,7 +32,7 @@
                                 <label>First Name:</label>
                             </td>
                             <td class="tableRight">
-                                <input type="text" id="fName" name="fName" th:field="*{fName}"  th:value="*{fName}" class="form-control" placeholder="First Name" />
+                                <input type="text" id="fName" name="fName" th:field="*{fName}"  th:value="*{fName}" class="form-control"  placeholder="First Name" />
                             </td>
                         </tr>
                         <tr>
@@ -40,7 +40,7 @@
                                 <label>Sure Name:</label>
                             </td>
                             <td class="tableRight">
-                                <input type="text" id="sName" name="sName" th:field="*{sName}"  th:value="*{fName}" class="form-control" placeholder="Sure Name" />
+                                <input type="text" id="sName" name="sName" th:field="*{sName}"  th:value="*{fName}"  class="form-control" placeholder="Sure Name" />
                             </td>
                         </tr>
                         <tr>
@@ -48,7 +48,7 @@
                                 <label>Email:</label>
                             </td>
                             <td class="tableRight">
-                                <input type="text" id="email" name="email" th:field="*{email}"  th:value="*{email}" class="form-control" placeholder="Email" />
+                                <input type="text" id="email" name="email" th:field="*{email}"  th:value="*{email}" class="form-control"  placeholder="Email" />
                             </td>
                         </tr>
                         <tr>
@@ -61,8 +61,27 @@
                                 </select>
                             </td>
                         </tr>
-
+                        <tr>
+                            <td class="tableLeft">
+                                <label>Change Password:</label>
+                            </td>
+                            <td class="tableRight">
+                                <a href="#" class="sublinks">Click here!</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tableLeft">
+                                <label>Extend Exp Date:</label>
+                            </td>
+                            <td class="tableRight">
+                                <a href="/extendexpiration" class="sublinks">
+                                    Click here!
+                                </a>
+                            </td>
+                        </tr>
                     </table>
+
+                    <br/><br/>
 
                     <div>
                         <button type="submit">
@@ -77,5 +96,6 @@
             </div>
         </div>
 	</div>
+
 </body>
 </html>
