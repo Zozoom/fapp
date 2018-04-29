@@ -3,13 +3,15 @@
 
 <head>
     <link rel="stylesheet" href="/static/css/profileCard.css" th:href="@{/css/profileCard.css}"/>
+    <link rel="stylesheet" href="/static/css/passCheckerCss.css" th:href="@{/css/passCheckerCss.css}"/>
+    <script src="/static/js/passwordChecker.js" th:src="@{/js/passwordChecker.js}"></script>
 </head>
 
 <body>
 		
 	<div layout:fragment="loginContent">
 
-        <h2 style="text-align:center">Change User Profile Card</h2>
+        <h2 style="text-align:center">Change Password</h2>
         <br/>
 
         <div class="card">
@@ -29,63 +31,52 @@
                         </tr>
                         <tr>
                             <td class="tableLeft">
-                                <label>First Name:</label>
+                                <label>Your account: </label>
                             </td>
                             <td class="tableRight">
-                                <input type="text" id="fName" name="fName" th:field="*{fName}"  th:value="*{fName}" class="form-control"  placeholder="First Name" />
+                                <p class="tabel" th:value="*{sName+' '+fName}" th:text="*{sName+' '+fName}">temp</p>
                             </td>
                         </tr>
                         <tr>
                             <td class="tableLeft">
-                                <label>Sure Name:</label>
+                                <label>Email: </label>
                             </td>
                             <td class="tableRight">
-                                <input type="text" id="sName" name="sName" th:field="*{sName}"  th:value="*{fName}"  class="form-control" placeholder="Sure Name" />
+                                <p class="tabel" th:value="*{email}" th:text="*{email}">temp</p>
                             </td>
                         </tr>
                         <tr>
                             <td class="tableLeft">
-                                <label>Email:</label>
+                                <label>Password:</label>
                             </td>
                             <td class="tableRight">
-                                <input type="text" id="email" name="email" th:field="*{email}"  th:value="*{email}" class="form-control"  placeholder="Email" />
+                                <input type="password" id="userPassword" name="userPassword" th:field="*{password}" class="form-control" placeholder="Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required="required" />
                             </td>
                         </tr>
                         <tr>
                             <td class="tableLeft">
-                                <label>Gender:</label>
+                                <label>Password Again:</label>
                             </td>
                             <td class="tableRight">
-                                <select th:field="*{userGender}">
-                                    <option th:each="gendre : ${genders}" th:value="${gendre}" th:text="${gendre}" >GenderName</option>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="tableLeft">
-                                <label>Change Password:</label>
-                            </td>
-                            <td class="tableRight">
-                                <a href="/changeuserpass" class="sublinks">Click here!</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="tableLeft">
-                                <label>Extend Exp Date:</label>
-                            </td>
-                            <td class="tableRight">
-                                <a href="/extendexpiration" class="sublinks">
-                                    Click here!
-                                </a>
+                                <input type="password" id="userPassword2" name="userPassword2" class="form-control" placeholder="Password Again" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required="required" />
                             </td>
                         </tr>
                     </table>
-
-                    <br/><br/>
-
+                    <br/>
+                    <div id="message" class="passCheck">
+                        <h3>Password must contain the following:</h3>
+                        <div class="mesTex">
+                            <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
+                            <p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>
+                            <p id="number" class="invalid">A <b>number</b></p>
+                            <p id="length" class="invalid">Minimum <b>8 characters</b></p>
+                            <p id="samePass" class="invalid">Password Confirmation <b>(Password again)</b></p>
+                        </div>
+                    </div>
+                    <br/>
                     <div>
                         <button type="submit">
-                            Save Changes
+                            Save Password
                         </button>
                         <button type="button" onclick="window.location.href='/userprofile'">
                             Cancel Changes

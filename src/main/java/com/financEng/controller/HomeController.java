@@ -83,6 +83,7 @@ public class HomeController {
      * */
     @RequestMapping("/changeuserprof")
     public String saveModifiedUserDetails(Model model){
+        log.info("User Profile Change.");
         user = getBackAuthUser();
         log.debug(user.toString());
         model.addAttribute("profileDetails",user);
@@ -91,10 +92,24 @@ public class HomeController {
     }
 
     /**
+     * User profile details and save modifications.
+     * */
+    @RequestMapping("/changeuserpass")
+    public String saveModifiedUserPasswrod(Model model){
+        log.info("User Password Change.");
+        user = getBackAuthUser();
+        log.debug(user.getPassword() +" - "+ user.toString());
+        model.addAttribute("profileDetails",user);
+        model.addAttribute("genders",User.Gender.values());
+        return "changeuserpass";
+    }
+
+    /**
      * Registration Page View Controller
      * */
 	@RequestMapping("/registration")
 	public String registration(Model model){
+        log.info("User Registration.");
 		User user = new User();
 		model.addAttribute("user",user);
 		model.addAttribute("genders",User.Gender.values());
@@ -122,11 +137,16 @@ public class HomeController {
      * Modifications on user POST.
      * */
     @RequestMapping(value = "/saveUserChanges", method = RequestMethod.POST)
-    public String saveUserChanges(@ModelAttribute User user,HttpServletRequest request, HttpServletResponse response) {
-        log.info("The following user was modificated: "+user.getEmail());
-        log.debug("The following user was modificated: "+user.toString());
+    public String saveUserChanges(@ModelAttribute User user, HttpServletRequest request, HttpServletResponse response) {
+        log.info("The following user was modificated: " +user.getEmail());
+        log.debug("The following user was modificated: "+user.getPassword()+" "+user.toString());
 
-        userService.saveUserModify(user);
+        if(user.getPassword() == null){
+            userService.saveUserModify(user);
+        }
+        else{
+            userService.saveUserPassword(user);
+        }
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null){

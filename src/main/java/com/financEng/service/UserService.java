@@ -8,6 +8,8 @@ public interface UserService {
 
     String saveUserModify(User user);
 
+	String saveUserPassword(User user);
+
 	User findByEmail(String email);
 
 	User findByName(String fname,String sname);

@@ -1,0 +1,58 @@
+.passCheck{
+    border: 1px solid black;
+    border-radius: 3px;
+    width: 70%;
+    margin: auto;
+    padding: 10px;
+    font-family: 'Calibri', sans-serif;
+}
+
+div.mesTex{
+    width: 80%;
+    margin: auto;
+}
+
+div.passCheck h3 {
+    font-size: 18px;
+}
+
+/*!* The message box is shown when the user clicks on the password field *!*/
+/*div.passCheck #message {*/
+    /*display: block;;*/
+    /*background: #f1f1f1;*/
+    /*color: #000;*/
+    /*position: relative;*/
+    /*padding: 20px;*/
+    /*margin-top: 10px;*/
+/*}*/
+
+div.passCheck #message{
+    padding: 10px 35px;
+    font-size: 18px;
+}
+
+/* Add a green text color and a checkmark when the requirements are right */
+div.passCheck .valid {
+    color: green;
+    text-align: left;
+}
+
+div.passCheck .valid:before {
+    position: relative;
+    left: -10px;
+    content: "✔";
+    text-align: left;
+}
+
+/* Add a red text color and an "x" when the requirements are wrong */
+div.passCheck .invalid {
+    color: red;
+    text-align: left;
+}
+
+div.passCheck .invalid:before {
+    position: relative;
+    left: -10px;
+    content: "✖";
+    text-align: left;
+}

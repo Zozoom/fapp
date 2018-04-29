@@ -146,8 +146,28 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return "logout";
     }
 
+	@Override
+	public String saveUserPassword(User modifiedUser) {
+		User userCheck = userRepository.findById(modifiedUser.getId());
 
-    /**
+		/** Check user is exist or not * */
+		if (userCheck == null)
+			return "User cannot Find!";
+
+		/** User FName **/
+		userCheck.setPassword(modifiedUser.getPassword());
+
+		/** User Save **/
+		userRepository.save(userCheck);
+
+		log.debug("Password change was successfully saved.");
+
+		/** Return with what... **/
+		return "logout";
+	}
+
+
+	/**
      * This method generate the activation code.
      * */
 	@Override
