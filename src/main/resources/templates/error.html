@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="hu"	layout:decorator="layouts/main">
+<head>
+	<title th:text="'Error Page - '+${status}">Error Page</title>
+</head>
+<body>
+		
+	<div layout:fragment="loginContent">
+		
+		<h2>Error Page</h2>
+
+        <br/>
+
+		<p>Sorry for the inconvenience.</p>
+
+		<div th:switch="${status}">
+			<img th:case="'401'" th:src="@{/images/men.png}" alt="profilePicture" style="width: 40%;height: 40%;"/>
+			<img th:case="'404'" th:src="@{/images/women.png}" alt="profilePicture" style="width: 40%;height: 40%;"/>
+			<img th:case="'403'" th:src="@{/images/forbid.jpg}" alt="profilePicture" style="width: 40%;height: 40%;"/>
+		</div>
+
+		<h3>Here is the cause:</h3>
+
+		<section>
+			<p th:text="${timestamp}">ErrorMsg</p>
+			<p th:text="${error}">ErrorMsg</p>
+			<p th:text="${message}">ErrorMsg</p>
+			<p th:text="${path}">ErrorMsg</p>
+			<p th:text="${status}">ErrorMsg</p>
+		</section>
+
+	</div>
+
+</body>
+</html>

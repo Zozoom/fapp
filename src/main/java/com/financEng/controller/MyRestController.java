@@ -21,13 +21,25 @@ public class MyRestController {
 
     private User user;
 
-    @RequestMapping(value = "/dev/genders", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/hello", method = RequestMethod.GET)
+    public String getHello() {
+        return "Hello";
+    }
+
+    @RequestMapping(value = "/exception", method = RequestMethod.GET)
+    public String getExceptionTemplate() throws Exception {
+        if(true)
+            throw new Exception("Proba exception");
+        return "Exception";
+    }
+
+    @RequestMapping(value = "/admin/genders", method = RequestMethod.GET)
     public String getGenderEnums() {
         List<User.Gender> enums = Arrays.asList(User.Gender.values());
         return enums.toString();
     }
 
-    @RequestMapping(value = "/dev/userprofile", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/userprofile", method = RequestMethod.GET)
     public String getUserProfile() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 

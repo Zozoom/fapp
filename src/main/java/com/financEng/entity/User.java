@@ -1,9 +1,7 @@
 package com.financEng.entity;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table( name="users" )
@@ -183,6 +181,16 @@ public class User {
         }
         return myRole;
     }
+
+//    /** Get My Roles in String **/
+//    public String getMyRole (Set<Role> roles) {
+//        ArrayList<String> myRole = new ArrayList<>();
+//        for (Role role : roles) {
+//            myRole.add(role.getRole());
+//        }
+//        Collections.sort(myRole);
+//        return myRole.toString();
+//    }
 
     @Override
     public String toString() {

@@ -156,7 +156,6 @@ public class HomeController {
         return "redirect:/login?logout";
     }
 
-
     /**
      * Send the activation code and verify it with a GET method.
      * */

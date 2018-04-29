@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="hu"	layout:decorator="layouts/main">
+<head>
+	<title>Error Page</title>
+</head>
+<body>
+		
+	<div layout:fragment="loginContent">
+		
+		<h2>Exception Page</h2>
+
+        <br/>
+
+		<p>Sorry for the invvoince.</p>
+
+		<h3>Here is the cause:</h3>
+
+		<section>
+			<p th:text="${StackTrace}">ErrorMsg</p>
+			<p th:text="${Cause}">ErrorMsg</p>
+			<p th:text="${Message}">ErrorMsg</p>
+		</section>
+
+	</div>
+
+</body>
+</html>

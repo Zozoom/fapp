@@ -1,0 +1,104 @@
+body {
+  background-image: url("../images/fapp/errorPage.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  background-size: 100% 100%;
+
+  font-family: Comfortaa, sans-serif !important;
+  font-weight: normal;
+  font-size: 16px;
+  color: white !important;
+}
+
+#frmlogout {
+  display:inline;
+}
+
+.navbar {
+  margin-top:3%;
+}
+
+.checkbox{
+  text-align: center;
+}
+
+.form-signin {
+  max-width: 55%;
+  padding: 5px;
+  margin: auto;
+}
+
+.form-signin-heading {
+  padding: 5px;
+  margin: auto;
+  text-align: center;
+}
+
+/* Button div to make it center */
+.btnDiv {
+  text-align:center;
+}
+
+.inputs{
+  width: 85%;
+  margin: auto;
+  left:auto;
+  right:auto;
+}
+
+/* The input fields for Text */
+input[type=text] {
+  width: 70%;
+  padding: 12px 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+/* The input fields for Password */
+input[type=password] {
+  width: 70%;
+  padding: 12px 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-left: 10px;
+}
+
+/* The login button default */
+.loginBtn {
+  width: 60%;
+  position: relative;
+  background-color: #186bef3d;
+  color: white;
+  padding: 10px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  font-weight: bold;
+  border-radius: 8px;
+  transition-duration: 0.4s;
+}
+
+/* The login button hover */
+.loginBtn:hover {
+  width: 70%;
+  position: relative;
+  background-color: #007ca5;
+  color: #102f66;
+  padding: 15px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  font-weight: bold;
+  border-radius: 8px;
+}
+
+footer{
+  background-color: #08080859;
+  border-radius: 8px;
+  padding: 7px 7px;
+  font-size: 14px;
+  text-align: center;
+}
