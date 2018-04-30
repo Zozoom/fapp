@@ -9,12 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,9 +24,9 @@ import javax.servlet.http.HttpServletResponse;
 public class HomeController {
 	
     private final Logger log = LoggerFactory.getLogger(this.getClass());
-    
+
     private UserService userService;
-    
+
     private EmailService emailService;
 
     private User user;
@@ -38,7 +39,7 @@ public class HomeController {
 	public void setEmailService(EmailService emailService) {
 		this.emailService = emailService;
 	}
-	
+
 	@Autowired
 	public void setUserService(UserService userService) {
 		this.userService = userService;
@@ -54,17 +55,8 @@ public class HomeController {
      * */
 	@RequestMapping("/")
 	public String home(){
-		return "index";
-	}
-
-	@RequestMapping("/bloggers")
-	public String bloggers(){
-		return "bloggers";
-	}
-
-	@RequestMapping("/stories")
-	public String stories(){
-		return "stories";
+        log.info(">> [/] - Home page");
+	    return "index";
 	}
 
 	/**
@@ -73,8 +65,10 @@ public class HomeController {
      * */
     @RequestMapping("/userprofile")
     public String userprofile(Model model){
+
         user = getBackAuthUser();
-        log.debug(user.toString());
+        log.info(">> [userprofile] - User Profile | GetAutUser: "+user.toString());
+
         model.addAttribute("profileDetails",user);
         return "userprofile";
     }
@@ -85,9 +79,10 @@ public class HomeController {
      * */
     @RequestMapping("/changeuserprof")
     public String saveModifiedUserDetails(Model model){
-        log.info("User Profile Change.");
+
         user = getBackAuthUser();
-        log.debug(user.toString());
+        log.info(">> [changeuserprof] - Change User Profile | GetAutUser: "+user.toString());
+
         model.addAttribute("profileDetails",user);
         model.addAttribute("genders",User.Gender.values());
         return "changeuserprof";
@@ -99,9 +94,10 @@ public class HomeController {
      * */
     @RequestMapping("/changeuserpass")
     public String saveModifiedUserPasswrod(Model model){
-        log.info("User Password Change.");
+
         user = getBackAuthUser();
-        log.debug(user.getPassword() +" - "+ user.toString());
+        log.info(">> [changeuserpass] - Change User Password | GetAutUser: "+user.toString());
+
         model.addAttribute("profileDetails",user);
         model.addAttribute("genders",User.Gender.values());
         return "changeuserpass";
@@ -113,48 +109,38 @@ public class HomeController {
      * */
 	@RequestMapping("/registration")
 	public String registration(Model model){
-        log.info("User Registration.");
+
 		User user = new User();
+        log.info(">> [registration] - User Registration | RegNewUser: "+user.toString());
+
 		model.addAttribute("user",user);
 		model.addAttribute("genders",User.Gender.values());
 		return "registration";
 	}
 
-    /**
-     * This method handles login GET requests.
-     * If users is already logged-in and tries to goto login page again, will be redirected to list page.
-     */
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String login() {
-        UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        System.out.println(">>>>>>>>>>>>>>>>>>>>> "+userDetails);
-        return "login";
-    }
-
-	/***********************************************************/
-	/** Rest Controllerek **/
+    /***********************************************************/
+    /** Rest Controllers **/
     /***********************************************************/
 
     /**
      * Registration POST when a new user was created.
      * Get information from the FrontEnd
      * */
-	@RequestMapping(value = "/reg", method = RequestMethod.POST)
-    public String reg(@ModelAttribute User user, Model model) {
-		log.info("The following new user email: "+user.getEmail());
-		log.debug("The following new user details: "+user.toString());
+    @RequestMapping(value = "/reg", method = RequestMethod.POST)
+    public String reg(@ModelAttribute User user) {
+        log.info(">> [reg] - User Registration - POST | NewUserEmail: "+user.getEmail());
+        log.debug(">> [reg] - User Registration - POST | NewUserDetails: "+user.toString());
 
-		if(userService.findByEmail(user.getEmail()) != null){
-            log.warn("This user already exist in the system: ["+user.getEmail()+"] !");
-            model.addAttribute("userExist",true);
-		    return "auth/login";
+        if(userService.findByEmail(user.getEmail()) != null){
+            log.warn(">> [reg] - This user already exist in the system: ["+user.getEmail()+"] !");
+            return "redirect:/login?userexist";
         }
         else {
             userService.registerUser(user);
             emailService.sendMessage(user);
-            log.info("User ["+user.getEmail()+"] was created !");
-            model.addAttribute("userCreated",true);
-            return "auth/login";
+
+            log.info(">> [reg] - New User - Created | User: "+user.getEmail());
+            return "redirect:/login?usercreated";
         }
     }
 
@@ -164,13 +150,15 @@ public class HomeController {
      * */
     @RequestMapping(value = "/saveUserChanges", method = RequestMethod.POST)
     public String saveUserChanges(@ModelAttribute User user, HttpServletRequest request, HttpServletResponse response) {
-        log.info("The following user was modificated: " +user.getEmail());
-        log.debug("The following user was modificated: "+user.getPassword()+" "+user.toString());
+        log.info(">> [saveUserChanges] - Save User Changes - POST | UserEmail: "+user.getEmail());
+        log.debug(">> [saveUserChanges] - Save User Changes - POST | UserDetails: "+user.toString());
 
         if(user.getPassword() == null){
+            log.info(">> [saveUserChanges] - Save User detail changes | UserEmail: "+user.getEmail());
             userService.saveUserModify(user);
         }
         else{
+            log.info(">> [saveUserChanges] - Save User password change | UserEmail: "+user.getEmail());
             userService.saveUserPassword(user);
         }
 
@@ -179,6 +167,7 @@ public class HomeController {
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
 
+        log.info(">> [saveUserChanges] - Redirecting... to Login page.");
         return "redirect:/login?logout";
     }
 
@@ -186,11 +175,22 @@ public class HomeController {
      * Send the activation code and verify it with a GET method.
      * Get information from the FrontEnd
      * */
-	 @RequestMapping(path = "/activation/{code}", method = RequestMethod.GET)
-	    public String activation(@PathVariable("code") String code, HttpServletResponse response) {
-		userService.userActivation(code);
-		return "auth/login";
-	 }
+    @RequestMapping(path = "/just", method = RequestMethod.GET)
+    public String just() {
+        return "redirect:/login?just";
+    }
+
+
+    /**
+     * Send the activation code and verify it with a GET method.
+     * Get information from the FrontEnd
+     * */
+    @RequestMapping(path = "/activation/{code}", method = RequestMethod.GET)
+    public String activation(@PathVariable("code") String code) {
+        String regAfform = userService.userActivation(code);
+        return "redirect:/login?actsuccess";
+    }
+
 
     /***********************************************************/
     /** Private methods | Helpers **/

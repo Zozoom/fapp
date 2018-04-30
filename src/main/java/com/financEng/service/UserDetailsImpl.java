@@ -1,15 +1,14 @@
 package com.financEng.service;
 
+import com.financEng.entity.Role;
+import com.financEng.entity.User;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-
-import com.financEng.entity.Role;
-import com.financEng.entity.User;
 
 public class UserDetailsImpl implements UserDetails {
 
@@ -38,7 +37,6 @@ public class UserDetailsImpl implements UserDetails {
 
 	@Override
 	public String getUsername() { return user.getfName()+" "+user.getsName(); }
-
 
     public String getUserEmail() {
         return user.getEmail();

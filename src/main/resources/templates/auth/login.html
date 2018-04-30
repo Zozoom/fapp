@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" layout:decorator="layouts/main" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" layout:decorator="/layouts/main">
 
 <head>
 	<title>Fapp - Login Page</title>
@@ -18,20 +18,21 @@
 		<form name="login" th:action="@{/login}" method="post" class="form-signin">
 
 			<!--Param section -->
-			<div id="err" th:if="${param.error}" class="alert alert-danger">Wrong user or password. Please check and try it again.</div>
+			<div th:if="${param.error}" class="alert alert-danger">Wrong user or password. Please check and try it again.</div>
 			<div th:if="${param.logout}" class="alert alert-success">You successfully logged out.</div>
-			<div th:if="${userExist}" class="alert alert-warning">This email have been already taken.</div>
-			<div th:if="${userCreated}" class="alert alert-success">You successfully registered. Please check your email.</div>
-			<div th:if="${userNotActivated}" class="alert alert-warning">Your account is still not activated. Check your email.</div>
+			<div th:if="${param.userexist}" class="alert alert-warning">This email have been already taken.</div>
+			<div th:if="${param.usercreated}" class="alert alert-success">You successfully registered. Please check your email.</div>
+			<div th:if="${param.actsuccess}" class="alert alert-success">Activation successfully done.</div>
+			<div th:if="${param.just}" class="alert alert-success">Easter EGGy</div>
 
 			<!--Action Section-->
-			<div>
-				<label for="username">User Email:</label>
-				<input type="text" id="username" name="username" placeholder="User email" required="required" />
 
-				<label for="password">Password:</label>
-				<input type="password" id="password" name="password" placeholder="Password" required="required" />
-			</div>
+			<label for="username">User Email:</label>
+			<input type="text" id="username" name="username" placeholder="User email" required="required" />
+
+			<label for="password">Password:</label>
+			<input type="password" id="password" name="password" placeholder="Password" required="required" />
+
 
 			<br/>
 			<label class="chcontainer">Remember me

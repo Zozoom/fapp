@@ -2,6 +2,8 @@ package com.financEng.controller;
 
 import com.financEng.entity.User;
 import com.financEng.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -16,10 +18,16 @@ import java.util.List;
 @RestController
 public class MyRestController {
 
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
+
     @Autowired
     private UserService userService;
 
     private User user;
+
+    /***********************************************************/
+    /** Test Rest Controllers **/
+    /***********************************************************/
 
     /**
      *

@@ -39,12 +39,32 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		this.roleRepository = roleRepository;
 	}
 
+	/**
+	 * Logging in go through here before grant access to the pages.
+	 * */
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		User user = findByEmail(username);
+
 		if (user == null) {
 			throw new UsernameNotFoundException(username);
 		}
+
+		log.info(">> Logging in user: "+user.getEmail());
+		log.info(">> Logging in user activation code: "+user.getActivation());
+
+		if(user.getActivation().isEmpty()){
+			log.info(">> Access granted!");
+		}
+		else{
+			log.error(">> Access DENIED! You still not activated. [ "+user.getActivation()+" ]");
+			try {
+				throw new Exception("Access Denied!");
+			} catch (Exception e) {
+				log.error(">> Logging in user: "+e.getMessage());
+			}
+		}
+
 		return new UserDetailsImpl(user);
 	}
 
@@ -173,12 +193,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	public String userActivation(String code) {
 		User user = userRepository.findByActivation(code);
 		if (user == null)
-		    return "noresult";
+		    return "active";
 		
 		user.setEnabled(true);
 		user.setActivation("");
 		userRepository.save(user);
-		return "ok";
+		return "actSuccess";
 	}
 
     /*******************************************/
