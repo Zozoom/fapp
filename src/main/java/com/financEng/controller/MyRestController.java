@@ -21,11 +21,17 @@ public class MyRestController {
 
     private User user;
 
+    /**
+     *
+     * */
     @RequestMapping(value = "/admin/hello", method = RequestMethod.GET)
     public String getHello() {
         return "Hello";
     }
 
+    /**
+     *
+     * */
     @RequestMapping(value = "/exception", method = RequestMethod.GET)
     public String getExceptionTemplate() throws Exception {
         if(true)
@@ -33,12 +39,18 @@ public class MyRestController {
         return "Exception";
     }
 
+    /**
+     *
+     * */
     @RequestMapping(value = "/admin/genders", method = RequestMethod.GET)
     public String getGenderEnums() {
         List<User.Gender> enums = Arrays.asList(User.Gender.values());
         return enums.toString();
     }
 
+    /**
+    *
+    * */
     @RequestMapping(value = "/admin/userprofile", method = RequestMethod.GET)
     public String getUserProfile() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -52,8 +64,6 @@ public class MyRestController {
         }
         else
             return "You are not logged in... ";
-
-
     }
 
 }

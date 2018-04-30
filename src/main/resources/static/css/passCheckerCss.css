@@ -1,10 +1,9 @@
 .passCheck{
-    border: 1px solid black;
-    border-radius: 3px;
+    border: 1px solid #f5f5f594;
+    border-radius: 8px;
     width: 70%;
     margin: auto;
-    padding: 10px;
-    font-family: 'Calibri', sans-serif;
+    padding: 0px 0px 0px 8%;
 }
 
 div.mesTex{
@@ -13,18 +12,8 @@ div.mesTex{
 }
 
 div.passCheck h3 {
-    font-size: 18px;
+    font-size: 15px;
 }
-
-/*!* The message box is shown when the user clicks on the password field *!*/
-/*div.passCheck #message {*/
-    /*display: block;;*/
-    /*background: #f1f1f1;*/
-    /*color: #000;*/
-    /*position: relative;*/
-    /*padding: 20px;*/
-    /*margin-top: 10px;*/
-/*}*/
 
 div.passCheck #message{
     padding: 10px 35px;

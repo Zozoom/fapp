@@ -9,13 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -51,6 +50,7 @@ public class HomeController {
 
     /**
      * Main page View Controller.
+     * Send information to the FrontEnd
      * */
 	@RequestMapping("/")
 	public String home(){
@@ -69,6 +69,7 @@ public class HomeController {
 
 	/**
      * User profile details page view controller.
+     * Send information to the FrontEnd
      * */
     @RequestMapping("/userprofile")
     public String userprofile(Model model){
@@ -80,6 +81,7 @@ public class HomeController {
 
     /**
      * User profile details and save modifications.
+     * Send information to the FrontEnd
      * */
     @RequestMapping("/changeuserprof")
     public String saveModifiedUserDetails(Model model){
@@ -93,6 +95,7 @@ public class HomeController {
 
     /**
      * User profile details and save modifications.
+     * Send information to the FrontEnd
      * */
     @RequestMapping("/changeuserpass")
     public String saveModifiedUserPasswrod(Model model){
@@ -106,6 +109,7 @@ public class HomeController {
 
     /**
      * Registration Page View Controller
+     * Send information to the FrontEnd
      * */
 	@RequestMapping("/registration")
 	public String registration(Model model){
@@ -116,25 +120,47 @@ public class HomeController {
 		return "registration";
 	}
 
+    /**
+     * This method handles login GET requests.
+     * If users is already logged-in and tries to goto login page again, will be redirected to list page.
+     */
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public String login() {
+        UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        System.out.println(">>>>>>>>>>>>>>>>>>>>> "+userDetails);
+        return "login";
+    }
+
 	/***********************************************************/
 	/** Rest Controllerek **/
     /***********************************************************/
 
     /**
      * Registration POST when a new user was created.
+     * Get information from the FrontEnd
      * */
 	@RequestMapping(value = "/reg", method = RequestMethod.POST)
-    public String reg(@ModelAttribute User user) {
-		log.info("The following new user was created: "+user.getEmail());
-		log.debug("The following new user was created: "+user.toString());
+    public String reg(@ModelAttribute User user, Model model) {
+		log.info("The following new user email: "+user.getEmail());
+		log.debug("The following new user details: "+user.toString());
 
-		userService.registerUser(user);
-		emailService.sendMessage(user);
-        return "auth/login";
+		if(userService.findByEmail(user.getEmail()) != null){
+            log.warn("This user already exist in the system: ["+user.getEmail()+"] !");
+            model.addAttribute("userExist",true);
+		    return "auth/login";
+        }
+        else {
+            userService.registerUser(user);
+            emailService.sendMessage(user);
+            log.info("User ["+user.getEmail()+"] was created !");
+            model.addAttribute("userCreated",true);
+            return "auth/login";
+        }
     }
 
     /**
      * Modifications on user POST.
+     * Get information from the FrontEnd
      * */
     @RequestMapping(value = "/saveUserChanges", method = RequestMethod.POST)
     public String saveUserChanges(@ModelAttribute User user, HttpServletRequest request, HttpServletResponse response) {
@@ -158,6 +184,7 @@ public class HomeController {
 
     /**
      * Send the activation code and verify it with a GET method.
+     * Get information from the FrontEnd
      * */
 	 @RequestMapping(path = "/activation/{code}", method = RequestMethod.GET)
 	    public String activation(@PathVariable("code") String code, HttpServletResponse response) {

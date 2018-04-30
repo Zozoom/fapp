@@ -166,7 +166,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		return "logout";
 	}
 
-
 	/**
      * This method generate the activation code.
      * */
