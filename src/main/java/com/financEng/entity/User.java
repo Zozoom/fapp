@@ -1,5 +1,7 @@
 package com.financEng.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.*;
 
@@ -8,7 +10,6 @@ import java.util.*;
 public class User {
 
     public enum Gender {
-
         Unknown("Unknown"),
         Male("Male"),
         Female("Female");
@@ -22,7 +23,6 @@ public class User {
         public String getGenderType() {
             return genderName;
         }
-
     }
 
 	@Id
@@ -45,6 +45,7 @@ public class User {
     @Column(name = "Gender", nullable=false)
     private String userGender;
 
+    @JsonBackReference
     @ManyToMany( cascade = CascadeType.ALL, fetch = FetchType.EAGER )
     @JoinTable(
             name = "users_roles",
@@ -166,14 +167,22 @@ public class User {
         this.expireDate = expireDate;
     }
 
-    /** Add Roles if is not exist **/
+    /*==================================================================================================================
+     || User Methods
+     ==================================================================================================================*/
+
+    /*********************************
+     * Add Roles if is not exist
+     * ******************************/
     public void addRoles(String roleName) {
 		if (this.roles == null || this.roles.isEmpty())
 			this.roles = new HashSet<>();
 		this.roles.add(new Role(roleName));
 	}
 
-	/** Get My Roles in String **/
+    /*********************************
+     * Get My Roles in String
+     * ******************************/
 	public String getMyRole (Set<Role> roles) {
 	    String myRole = "";
         for (Role role : roles) {
@@ -181,16 +190,6 @@ public class User {
         }
         return myRole;
     }
-
-//    /** Get My Roles in String **/
-//    public String getMyRole (Set<Role> roles) {
-//        ArrayList<String> myRole = new ArrayList<>();
-//        for (Role role : roles) {
-//            myRole.add(role.getRole());
-//        }
-//        Collections.sort(myRole);
-//        return myRole.toString();
-//    }
 
     @Override
     public String toString() {

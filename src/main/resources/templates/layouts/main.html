@@ -29,8 +29,8 @@
 				        <li class="active"><a href="/">Home Page</a></li>
 						<li class=""><a href="/userprofile">User Profile</a></li>
 				    </ul>
-				    <div class="navbar-text navbar-right">
-				    Welcome dear <span th:text="${#authentication.getName()}=='anonymousUser' ? 'Guest' : ${#authentication.getName()}"> Guest </span> !
+				    <div class="navbar-text navbar-right" >
+				    Welcome dear <span th:text="${#authentication.getName()}=='anonymousUser' ? 'Guest' : ${profileDetails.fName}+' '+${profileDetails.sName}"> Guest </span> !
 			           <form sec:authorize="isAuthenticated()" id="frmlogout" th:action="@{/logout}" method="post" class="form-inline">
                            <a href="javascript:{}" onclick="document.getElementById('frmlogout').submit(); return false;">Logout</a>
 				      </form>

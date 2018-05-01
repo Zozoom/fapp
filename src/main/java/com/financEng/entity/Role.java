@@ -1,5 +1,7 @@
 package com.financEng.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -24,6 +26,7 @@ public class Role {
     @Column(name = "ROLE_CreationDate")
     private Date creationDate;
 
+	@JsonBackReference
 	@ManyToMany( mappedBy = "roles")
 	private Set<User> users = new HashSet<User>();
 

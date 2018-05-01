@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="hu"	layout:decorator="/layouts/main">
 <head>
-	<title>SFj - Minden napra egy sztori</title>
+	<title>Fapp - Home Page</title>
 </head>
 <body>
 		
@@ -12,7 +12,7 @@
 		<table>
 			<tr>
 				<p>Logged user:
-				<span sec:authentication="name">Bob</span>
+				<span th:text="${profileDetails.fName}+' '+${profileDetails.sName}">Bob</span>
 				</p>
 			</tr>
 			<tr>
@@ -47,7 +47,7 @@
 			<a href="/bloggers">Bloggerek</a>
 		</p>
 		<p>
-			<a href="/just">/just</a>
+			<a href="/easteregg">/easteregg</a>
 		</p>
 		<p>
 			<a href="/admin/hello">/admin/hello</a>

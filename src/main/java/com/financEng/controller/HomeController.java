@@ -22,7 +22,12 @@ import javax.servlet.http.HttpServletResponse;
 
 @Controller
 public class HomeController {
-	
+
+    /***********************************
+     * Just Controls the threads.
+     * Not do any Logic or Calculation!
+     * *********************************/
+
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     private UserService userService;
@@ -31,9 +36,9 @@ public class HomeController {
 
     private User user;
 
-    /***********************************************************/
-    /** SERVICES | Setting up services **/
-    /***********************************************************/
+    /*==================================================================================================================
+      || SERVICES | Setting up services
+      ==================================================================================================================*/
 
 	@Autowired
 	public void setEmailService(EmailService emailService) {
@@ -45,169 +50,179 @@ public class HomeController {
 		this.userService = userService;
 	}
 
-    /***********************************************************/
-	/** Page View Controllers with Models **/
-    /***********************************************************/
+    /*==================================================================================================================
+      || Page View Controllers with Models
+      ==================================================================================================================*/
 
-    /**
+    /*********************************************************************
      * Main page View Controller.
      * Send information to the FrontEnd
-     * */
+     * getBackAuthUser(); method setup the authenticated user. IMPORTANT!
+     * ********************************************************************/
 	@RequestMapping("/")
-	public String home(){
+	public String home(Model model){
         log.info(">> [/] - Home page");
+        getBackAuthUser();
+        model.addAttribute("profileDetails",user);
 	    return "index";
 	}
 
-	/**
+	/*********************************************************************
      * User profile details page view controller.
      * Send information to the FrontEnd
-     * */
+     * ********************************************************************/
     @RequestMapping("/userprofile")
     public String userprofile(Model model){
-
-        user = getBackAuthUser();
         log.info(">> [userprofile] - User Profile | GetAutUser: "+user.toString());
-
         model.addAttribute("profileDetails",user);
         return "userprofile";
     }
 
-    /**
+    /*********************************************************************
      * User profile details and save modifications.
      * Send information to the FrontEnd
-     * */
+     * ********************************************************************/
     @RequestMapping("/changeuserprof")
     public String saveModifiedUserDetails(Model model){
-
-        user = getBackAuthUser();
         log.info(">> [changeuserprof] - Change User Profile | GetAutUser: "+user.toString());
-
         model.addAttribute("profileDetails",user);
         model.addAttribute("genders",User.Gender.values());
         return "changeuserprof";
     }
 
-    /**
+    /*********************************************************************
      * User profile details and save modifications.
      * Send information to the FrontEnd
-     * */
+     * ********************************************************************/
     @RequestMapping("/changeuserpass")
     public String saveModifiedUserPasswrod(Model model){
-
-        user = getBackAuthUser();
         log.info(">> [changeuserpass] - Change User Password | GetAutUser: "+user.toString());
-
         model.addAttribute("profileDetails",user);
         model.addAttribute("genders",User.Gender.values());
         return "changeuserpass";
     }
 
-    /**
+    /*********************************************************************
      * Registration Page View Controller
      * Send information to the FrontEnd
-     * */
+     * ********************************************************************/
 	@RequestMapping("/registration")
 	public String registration(Model model){
-
 		User user = new User();
-        log.info(">> [registration] - User Registration | RegNewUser: "+user.toString());
-
+        log.info(">> [registration] - User Registration | RegNewUser send an empty user to FE.");
 		model.addAttribute("user",user);
 		model.addAttribute("genders",User.Gender.values());
 		return "registration";
 	}
 
-    /***********************************************************/
-    /** Rest Controllers **/
-    /***********************************************************/
+    /*==================================================================================================================
+     || Action Page Controllers
+     ==================================================================================================================*/
 
-    /**
+    /*********************************************************************
      * Registration POST when a new user was created.
      * Get information from the FrontEnd
-     * */
+     * ********************************************************************/
     @RequestMapping(value = "/reg", method = RequestMethod.POST)
     public String reg(@ModelAttribute User user) {
         log.info(">> [reg] - User Registration - POST | NewUserEmail: "+user.getEmail());
         log.debug(">> [reg] - User Registration - POST | NewUserDetails: "+user.toString());
 
-        if(userService.findByEmail(user.getEmail()) != null){
-            log.warn(">> [reg] - This user already exist in the system: ["+user.getEmail()+"] !");
-            return "redirect:/login?userexist";
-        }
-        else {
-            userService.registerUser(user);
-            emailService.sendMessage(user);
+        String regStatus;
+        regStatus = userService.registerUser(user);
 
-            log.info(">> [reg] - New User - Created | User: "+user.getEmail());
-            return "redirect:/login?usercreated";
+        if(regStatus.contains("error")){
+            log.warn(">> [reg:"+regStatus+"] - This user already exist in the system: ["+user.getEmail()+"] !");
+            return "redirect:/login?"+regStatus;
         }
+        else{
+            emailService.sendMessage(user);
+            log.info(">> [reg:"+regStatus+"] - New User - Created | User: "+user.getEmail());
+            return "redirect:/login?"+regStatus;
+        }
+
     }
 
-    /**
+    /*********************************************************************
      * Modifications on user POST.
      * Get information from the FrontEnd
-     * */
+     * ********************************************************************/
     @RequestMapping(value = "/saveUserChanges", method = RequestMethod.POST)
     public String saveUserChanges(@ModelAttribute User user, HttpServletRequest request, HttpServletResponse response) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        SecurityContextLogoutHandler sec = new SecurityContextLogoutHandler();
+        String changeStatus="";
+
         log.info(">> [saveUserChanges] - Save User Changes - POST | UserEmail: "+user.getEmail());
         log.debug(">> [saveUserChanges] - Save User Changes - POST | UserDetails: "+user.toString());
 
         if(user.getPassword() == null){
             log.info(">> [saveUserChanges] - Save User detail changes | UserEmail: "+user.getEmail());
-            userService.saveUserModify(user);
+            changeStatus = userService.saveUserModify(user);
+            //Here comes the Confirmation email type but first email service has to be upgrade.
+            //emailService.sendMessage(user);
         }
         else{
             log.info(">> [saveUserChanges] - Save User password change | UserEmail: "+user.getEmail());
-            userService.saveUserPassword(user);
+            changeStatus = userService.saveUserPassword(user);
+            //Here comes the Confirmation email type but first email service has to be upgrade.
+            //emailService.sendMessage(user);
         }
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null){
-            new SecurityContextLogoutHandler().logout(request, response, auth);
-        }
-
-        log.info(">> [saveUserChanges] - Redirecting... to Login page.");
-        return "redirect:/login?logout";
+        log.info(">> [saveUserChanges] - Redirecting and Logging out to the Login page.");
+        sec.logout(request, response, auth);
+        return "redirect:/login?"+changeStatus;
     }
 
-    /**
+    /*********************************************************************
      * Send the activation code and verify it with a GET method.
      * Get information from the FrontEnd
-     * */
-    @RequestMapping(path = "/just", method = RequestMethod.GET)
-    public String just() {
-        return "redirect:/login?just";
+     * ********************************************************************/
+    @RequestMapping(path = "/easteregg", method = RequestMethod.GET)
+    public String easteregg() {
+        log.info(">> [easteregg] - Easter Egg shown.");
+        return "redirect:/login?easteregg";
     }
 
-
-    /**
+    /*******************************************************************
      * Send the activation code and verify it with a GET method.
      * Get information from the FrontEnd
-     * */
+     * ******************************************************************/
     @RequestMapping(path = "/activation/{code}", method = RequestMethod.GET)
     public String activation(@PathVariable("code") String code) {
-        String regAfform = userService.userActivation(code);
-        return "redirect:/login?actsuccess";
+        log.info(">> [activation] - Activating with the following code: "+code);
+        String isUserActive = userService.userActivation(code);
+
+        if(isUserActive.equals("active")){
+            log.info(">> [activation] - This code has been already used.");
+            return "redirect:/login?actdone";
+        }
+        else{
+            log.info(">> [activation] - Activation was successfully.");
+            return "redirect:/login?actsuccess";
+        }
+
     }
 
+    /*==================================================================================================================
+     || Private methods | Helpers
+     ==================================================================================================================*/
 
-    /***********************************************************/
-    /** Private methods | Helpers **/
-    /***********************************************************/
-
+    /***********************************************************
+     * Get Authenticated User for more details.
+     * This a private method.
+     ***********************************************************/
     private User getBackAuthUser(){
+        log.info(">> [getBackAuthUser] - Get authenticated user details.");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         if (!(auth instanceof AnonymousAuthenticationToken)){
-            String fname = auth.getName().split(" ")[0];
-            String sname = auth.getName().split(" ")[1];
-            user = userService.findByName(fname,sname);
+            user = userService.findByEmail(auth.getName());
+            return userService.findByEmail(auth.getName());
         }
         else {
-            user = new User();
+            return new User();
         }
-        return user;
     }
 
 }

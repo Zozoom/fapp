@@ -20,10 +20,13 @@
 			<!--Param section -->
 			<div th:if="${param.error}" class="alert alert-danger">Wrong user or password. Please check and try it again.</div>
 			<div th:if="${param.logout}" class="alert alert-success">You successfully logged out.</div>
-			<div th:if="${param.userexist}" class="alert alert-warning">This email have been already taken.</div>
-			<div th:if="${param.usercreated}" class="alert alert-success">You successfully registered. Please check your email.</div>
+			<div th:if="${param.user_exist_error}" class="alert alert-warning">This email have been already taken.</div>
+			<div th:if="${param.user_persisted}" class="alert alert-success">You successfully registered. Please check your email.</div>
+			<div th:if="${param.user_changed}" class="alert alert-success">You logged out. Your changes are successfully saved.</div>
+			<div th:if="${param.user_pass_changed}" class="alert alert-success">You logged out. Your password is successfully saved.</div>
 			<div th:if="${param.actsuccess}" class="alert alert-success">Activation successfully done.</div>
-			<div th:if="${param.just}" class="alert alert-success">Easter EGGy</div>
+			<div th:if="${param.actdone}" class="alert alert-success">You already activated your account.</div>
+			<div th:if="${param.easteregg}" class="alert alert-success">Hello I'm an Easter EGGy.</div>
 
 			<!--Action Section-->
 

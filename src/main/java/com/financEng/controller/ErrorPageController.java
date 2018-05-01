@@ -1,5 +1,7 @@
 package com.financEng.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ErrorAttributes;
 import org.springframework.boot.autoconfigure.web.ErrorController;
@@ -16,9 +18,15 @@ import java.util.Map;
 @Controller
 public class ErrorPageController implements ErrorController {
 
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
+
     private static final String ERR_PATH = "/error";
 
     private ErrorAttributes errorAttributes;
+
+    /*==================================================================================================================
+     || Error page configurations and Autowire's
+     ==================================================================================================================*/
 
     @Autowired
     public void setErrorAttributes(ErrorAttributes errorAttributes) {
@@ -30,10 +38,19 @@ public class ErrorPageController implements ErrorController {
         return ERR_PATH;
     }
 
+    /*==================================================================================================================
+     || Error Page Request Mappers
+     ==================================================================================================================*/
+
+    /************************************************
+     * This Catch the Error and give back a formal error page.
+     * *********************************************/
     @RequestMapping(ERR_PATH)
     public String error (Model model, HttpServletRequest httpReq){
         RequestAttributes ra = new ServletRequestAttributes(httpReq);
         Map<String,Object> error = this.errorAttributes.getErrorAttributes(ra,true);
+
+        log.info(">> [error] - Error page | Getting error details..");
 
         model.addAttribute("timestamp",error.get("timestamp"));
         model.addAttribute("error",error.get("error"));

@@ -25,53 +25,55 @@ public class MyRestController {
 
     private User user;
 
-    /***********************************************************/
-    /** Test Rest Controllers **/
-    /***********************************************************/
+    /*==================================================================================================================
+     || Test Rest Controllers
+     ==================================================================================================================*/
 
-    /**
-     *
-     * */
+    /***************************************
+     * Simple Hello Endpoint
+     * **************************************/
     @RequestMapping(value = "/admin/hello", method = RequestMethod.GET)
     public String getHello() {
+        log.info(">> [/admin/hello] - Admin Hello Page | Says hello...");
         return "Hello";
     }
 
-    /**
-     *
-     * */
+    /***************************************
+     * Simple Exception
+     * **************************************/
     @RequestMapping(value = "/exception", method = RequestMethod.GET)
     public String getExceptionTemplate() throws Exception {
-        if(true)
-            throw new Exception("Proba exception");
-        return "Exception";
+        String exceptMessage = "This is an exception message";
+        if(true){
+            log.info(">> [/exception] - This endpoint throw EXCEPTION. | "+exceptMessage);
+            throw new Exception(exceptMessage);
+        }
+        return "exception";
     }
 
-    /**
-     *
-     * */
+    /***************************************
+     * Get back the Gender Enums in JSON
+     * **************************************/
     @RequestMapping(value = "/admin/genders", method = RequestMethod.GET)
-    public String getGenderEnums() {
-        List<User.Gender> enums = Arrays.asList(User.Gender.values());
-        return enums.toString();
+    public List<User.Gender> getGenderEnums() {
+        log.info(">> [/admin/genders] - Get the Gender Enums | You can see the Gender types.");
+        return Arrays.asList(User.Gender.values());
     }
 
-    /**
-    *
-    * */
+    /***************************************
+     * Get back the user detail in JSON
+     * **************************************/
     @RequestMapping(value = "/admin/userprofile", method = RequestMethod.GET)
-    public String getUserProfile() {
+    public User getUserProfile() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         if (!(auth instanceof AnonymousAuthenticationToken)){
-            String fname = auth.getName().split(" ")[0];
-            String sname = auth.getName().split(" ")[1];
-            user = userService.findByName(fname,sname);
-            System.out.println("Here is the user: "+user.toString());
-            return user.getfName()+" "+user.getsName();
+            log.info(">> [/admin/userprofile] - Get the Authenticated user Details. | You can see your details in JSON.");
+            user = userService.findByEmail(auth.getName());
+            return user;
         }
         else
-            return "You are not logged in... ";
+            return null;
     }
 
 }
