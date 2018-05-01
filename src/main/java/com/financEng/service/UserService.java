@@ -15,5 +15,7 @@ public interface UserService {
 	User findByName(String fname,String sname);
 
     String userActivation(String code);
+
+    String genActCodeImplicity();
 	
 }

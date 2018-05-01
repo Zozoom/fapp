@@ -24,8 +24,8 @@
 			<div th:if="${param.user_persisted}" class="alert alert-success">You successfully registered. Please check your email.</div>
 			<div th:if="${param.user_changed}" class="alert alert-success">You logged out. Your changes are successfully saved.</div>
 			<div th:if="${param.user_pass_changed}" class="alert alert-success">You logged out. Your password is successfully saved.</div>
-			<div th:if="${param.actsuccess}" class="alert alert-success">Activation successfully done.</div>
-			<div th:if="${param.actdone}" class="alert alert-success">You already activated your account.</div>
+			<div th:if="${param.act_success}" class="alert alert-success">Activation successfully done.</div>
+			<div th:if="${param.user_active}" class="alert alert-success">You already activated your account.</div>
 			<div th:if="${param.easteregg}" class="alert alert-success">Hello I'm an Easter EGGy.</div>
 
 			<!--Action Section-->

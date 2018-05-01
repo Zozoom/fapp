@@ -193,13 +193,13 @@ public class HomeController {
         log.info(">> [activation] - Activating with the following code: "+code);
         String isUserActive = userService.userActivation(code);
 
-        if(isUserActive.equals("active")){
-            log.info(">> [activation] - This code has been already used.");
-            return "redirect:/login?actdone";
+        if(isUserActive.equals("user_active")){
+            log.info(">> [activation:"+isUserActive+"] - This code has been already used.");
+            return "redirect:/login?"+isUserActive;
         }
         else{
-            log.info(">> [activation] - Activation was successfully.");
-            return "redirect:/login?actsuccess";
+            log.info(">> [activation:"+isUserActive+"] - Activation was successfully.");
+            return "redirect:/login?"+isUserActive;
         }
 
     }

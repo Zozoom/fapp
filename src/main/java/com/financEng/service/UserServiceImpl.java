@@ -4,6 +4,7 @@ import com.financEng.entity.Role;
 import com.financEng.entity.User;
 import com.financEng.repo.RoleRepository;
 import com.financEng.repo.UserRepository;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -260,31 +261,56 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	@Override
 	public String userActivation(String code) {
 		User user = userRepository.findByActivation(code);
-		if (user == null)
-		    return "active";
+		/** Check the user is exist. Unee = 'User not exist error' **/
+		if (user == null) {
+			log.info(">> [userActivation] - User is already activated with this code: "+code);
+			return "user_active";
+		}
 		
 		user.setEnabled(true);
+		log.info(">> [userActivation] - Setting user enabled to login: "+user.getEmail()+" - "+user.getEnabled());
 		user.setActivation("");
-		userRepository.save(user);
-		return "actSuccess";
+		log.info(">> [userActivation] - Empty the activation code field.");
+
+		/** User Save **/
+		try{
+			userRepository.save(user);
+			log.info(">> [userActivation] - User ["+user.getEmail()+"] Successfully persisted to the database!");
+		}
+		catch (Exception e){
+			log.error(">> [userActivation] - User ["+user.getEmail()+"] persisting error! User cannot persisted to database.");
+			log.error(">> [userActivation] - Error: ["+e.getMessage()+"]");
+		}
+
+		/** Return with what... **/
+		log.info(">> [userActivation] - Activation successfully saved.");
+		return "act_success";
 	}
 
 	/*==================================================================================================================
      || Private methods
      ==================================================================================================================*/
 
+	/**
+	 * This for testing the GeyGenFunction
+	 * with a Simple RestController
+	 * */
+	@Override
+	public String genActCodeImplicity() {
+		return generateKey();
+	}
+
     /***************************************************
      * Generate the activation code for user activation.
      * *************************************************/
-    private String generateKey()
-    {
-        Random random = new Random();
-        char[] word = new char[16];
-        for (int j = 0; j < word.length; j++) {
-            word[j] = (char) ('a' + random.nextInt(26));
-        }
-        String toReturn = new String(word);
-        log.debug(">> [generateKey] - Generated code for the new user: " + toReturn);
-        return new String(word);
+    private String generateKey(){
+		int length = 5;
+		String generatedString = "fapp"+
+								 RandomStringUtils.random(length, true, true) +
+								 RandomStringUtils.randomAscii(length) +
+								 RandomStringUtils.random(length, true, true);
+
+		log.debug(">> [generateKey] - Generated code for the new user: " + generatedString);
+		return generatedString;
     }
 }

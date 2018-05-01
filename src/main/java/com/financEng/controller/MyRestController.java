@@ -38,6 +38,19 @@ public class MyRestController {
         return "Hello";
     }
 
+
+    /***************************************
+     * Simple Hello Endpoint
+     * **************************************/
+    @RequestMapping(value = "/admin/gencode", method = RequestMethod.GET)
+    public String gencode() {
+        String code;
+        code = userService.genActCodeImplicity();
+        log.info(">> [/admin/genCode] - Generate code >>> "+code);
+        return "Code is: [" +code+"]";
+    }
+
+
     /***************************************
      * Simple Exception
      * **************************************/
