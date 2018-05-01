@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" layout:decorator="/layouts/main">
+<html lang="en" layout:decorator="layouts/main">
 
 <head>
     <title>Fapp - Registration</title>
@@ -16,7 +16,7 @@
         <h2 class="form-signin-heading">&#8810;&#8810; Please fill the form. &#8811;&#8811;</h2>
         <br/>
 
-        <form name="registration" th:action="@{/reg}" th:object="${user}" method="post" class="form-signin">
+        <form name="registration" th:action="@{/registration/reg}" th:object="${user}" method="post" class="form-signin">
             <!--Action Section-->
             <br/>
             <div>

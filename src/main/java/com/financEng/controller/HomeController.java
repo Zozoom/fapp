@@ -123,7 +123,7 @@ public class HomeController {
      * Registration POST when a new user was created.
      * Get information from the FrontEnd
      * ********************************************************************/
-    @RequestMapping(value = "/reg", method = RequestMethod.POST)
+    @RequestMapping(value = "/registration/reg", method = RequestMethod.POST)
     public String reg(@ModelAttribute User user) {
         log.info(">> [reg] - User Registration - POST | NewUserEmail: "+user.getEmail());
         log.debug(">> [reg] - User Registration - POST | NewUserDetails: "+user.toString());

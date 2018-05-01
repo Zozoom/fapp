@@ -1,6 +1,7 @@
 package com.financEng.controller;
 
 import com.financEng.entity.User;
+import com.financEng.service.LogMonitorService;
 import com.financEng.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +24,9 @@ public class MyRestController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private LogMonitorService logMonitorService;
+
     private User user;
 
     /*==================================================================================================================
@@ -40,7 +44,7 @@ public class MyRestController {
 
 
     /***************************************
-     * Simple Hello Endpoint
+     * Code generator Tester
      * **************************************/
     @RequestMapping(value = "/admin/gencode", method = RequestMethod.GET)
     public String gencode() {
@@ -48,6 +52,14 @@ public class MyRestController {
         code = userService.genActCodeImplicity();
         log.info(">> [/admin/genCode] - Generate code >>> "+code);
         return "Code is: [" +code+"]";
+    }
+
+    /***************************************
+     * Log Monitor Endpoint
+     * **************************************/
+    @RequestMapping(value = "/admin/log", method = RequestMethod.GET)
+    public String logMonitor() {
+        return logMonitorService.getLogMonitor();
     }
 
 

@@ -291,10 +291,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
      || Private methods
      ==================================================================================================================*/
 
-	/**
+	/**************************************
 	 * This for testing the GeyGenFunction
 	 * with a Simple RestController
-	 * */
+	 * ************************************/
 	@Override
 	public String genActCodeImplicity() {
 		return generateKey();

@@ -27,7 +27,7 @@ public class ExceptionGeneralController {
         model.addAttribute("Cause",ex.getCause());
         model.addAttribute("Message",ex.getMessage());
 
-        return "exceptionError";
+        return "exception";
     }
 
 }

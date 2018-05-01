@@ -20,7 +20,7 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
 //	    return super.userDetailsService();
 //	}
 
-    @Autowired
+	@Autowired
 	private UserDetailsService userService;
 
 	@Autowired
@@ -35,7 +35,7 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
 			.authorizeRequests()
 				.antMatchers("/admin/**").hasAuthority("ADMIN")
 				.antMatchers("/registration").permitAll()
-				.antMatchers("/reg").permitAll()
+				.antMatchers("/registration/reg").permitAll()
 				.antMatchers("/activation/**").permitAll()
 				.antMatchers("/login/**").permitAll()
 				.anyRequest().authenticated()
