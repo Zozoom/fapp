@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		User user = findByEmail(userEmail);
 
 		if (user == null) {
-            log.info(">> [loadUserByUsername] - Error cannot found USER: "+userEmail);
+            log.error(">> [loadUserByUsername] - Error cannot found USER: "+userEmail);
 			throw new UsernameNotFoundException(userEmail);
 		}
 
@@ -97,7 +97,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     	/** Check the user is not exist yet. **/
 		if (userRepository.findByEmail(userToRegister.getEmail()) != null) {
-			log.info(">> [registerUser] - Error user already exist: "+userToRegister.getEmail());
+			log.error(">> [registerUser] - Error user already exist: "+userToRegister.getEmail());
 			return "user_exist_error";
 		}
 
@@ -113,20 +113,20 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		} else {
 			userToRegister.addRoles(USER_ROLE);
 		}
-		log.info(">> [registerUser] - User Role will be: "+USER_ROLE);
+		log.debug(">> [registerUser] - User Role will be: "+USER_ROLE);
 
 		/** User Enabled **/
 		userToRegister.setEnabled(false);
-		log.info(">> [registerUser] - User Enabled: "+userToRegister.getEnabled());
+		log.debug(">> [registerUser] - User Enabled: "+userToRegister.getEnabled());
 
 		/** User Locked **/
 		userToRegister.setLocked(false);
-		log.info(">> [registerUser] - User Locked: "+userToRegister.getLocked());
+		log.debug(">> [registerUser] - User Locked: "+userToRegister.getLocked());
 
 		/** User Creation Date **/
 		Date createDate = new Date();
 		userToRegister.setCreationDate(createDate);
-		log.info(">> [registerUser] - User Creation Date: "+userToRegister.getCreationDate());
+		log.debug(">> [registerUser] - User Creation Date: "+userToRegister.getCreationDate());
 
 		/** User Expire Date Calculation **/
 		Calendar c = Calendar.getInstance();
@@ -136,11 +136,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 		/** User Expire Date Set**/
 		userToRegister.setExpireDate(expireDate);
-		log.info(">> [registerUser] - User Expire Date: "+userToRegister.getExpireDate());
+		log.debug(">> [registerUser] - User Expire Date: "+userToRegister.getExpireDate());
 
 		/** User Activation **/
 		userToRegister.setActivation(generateKey());
-		log.info(">> [registerUser] - User Activation Code: "+userToRegister.getActivation());
+		log.debug(">> [registerUser] - User Activation Code: "+userToRegister.getActivation());
 
 		/** User Save **/
 		try{
@@ -167,7 +167,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 		/** Check the user is exist. Unee = 'User not exist error' **/
 		if (modifiedUser == null) {
-			log.info(">> [saveUserModify] - Error cannot found USER: "+userToModify.getEmail());
+			log.error(">> [saveUserModify] - Error cannot found USER: "+userToModify.getEmail());
 			return "unee";
 		}
 
@@ -176,7 +176,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 			log.error(">> [saveUserModify] - User First Name is empty.");
 		}
         modifiedUser.setfName(userToModify.getfName());
-		log.info(">> [saveUserModify] - Change User Fist Name: "+modifiedUser.getfName());
+		log.debug(">> [saveUserModify] - Change User Fist Name: "+modifiedUser.getfName());
 
 
 		/** User SName **/
@@ -184,7 +184,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 			log.error(">> [saveUserModify] - User Second Name is empty.");
 		}
 		modifiedUser.setsName(userToModify.getsName());
-		log.info(">> [saveUserModify] - Change User Second Name: "+modifiedUser.getsName());
+		log.debug(">> [saveUserModify] - Change User Second Name: "+modifiedUser.getsName());
 
 
 		/** User Email **/
@@ -192,7 +192,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 			log.error(">> [saveUserModify] - User Email is empty.");
 		}
 		modifiedUser.setEmail(userToModify.getEmail());
-		log.info(">> [saveUserModify] - Change User Email: "+modifiedUser.getEmail());
+		log.debug(">> [saveUserModify] - Change User Email: "+modifiedUser.getEmail());
 
 
 		/** User User Gender **/
@@ -200,7 +200,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 			log.error(">> [saveUserModify] - User User Gender is empty.");
 		}
 		modifiedUser.setUserGender(userToModify.getUserGender());
-		log.info(">> [saveUserModify] - Change User Gender: "+modifiedUser.getUserGender());
+		log.debug(">> [saveUserModify] - Change User Gender: "+modifiedUser.getUserGender());
 
 		/** User Save **/
 		try{
@@ -227,7 +227,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 		/** Check the user is exist. Unee = 'User not exist error' **/
 		if (modifiedUser == null) {
-			log.info(">> [saveUserPassword] - Error cannot found USER: "+userToModify.getEmail());
+			log.error(">> [saveUserPassword] - Error cannot found USER: "+userToModify.getEmail());
 			return "unee";
 		}
 
@@ -236,7 +236,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 			log.error(">> [saveUserPassword] - User Password is empty.");
 		}
 		modifiedUser.setPassword(userToModify.getPassword());
-		log.info(">> [saveUserPassword] - Change User Password.");
+		log.debug(">> [saveUserPassword] - Change User Password.");
 
 		/** User Save **/
 		try{
@@ -263,14 +263,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		User user = userRepository.findByActivation(code);
 		/** Check the user is exist. Unee = 'User not exist error' **/
 		if (user == null) {
-			log.info(">> [userActivation] - User is already activated with this code: "+code);
+			log.warn(">> [userActivation] - User is already activated with this code: "+code);
 			return "user_active";
 		}
 		
 		user.setEnabled(true);
-		log.info(">> [userActivation] - Setting user enabled to login: "+user.getEmail()+" - "+user.getEnabled());
+		log.debug(">> [userActivation] - Setting user enabled to login: "+user.getEmail()+" - "+user.getEnabled());
 		user.setActivation("");
-		log.info(">> [userActivation] - Empty the activation code field.");
+		log.debug(">> [userActivation] - Empty the activation code field.");
 
 		/** User Save **/
 		try{
@@ -304,11 +304,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
      * Generate the activation code for user activation.
      * *************************************************/
     private String generateKey(){
-		int length = 5;
-		String generatedString = "fapp"+
-								 RandomStringUtils.random(length, true, true) +
-								 RandomStringUtils.randomAscii(length) +
-								 RandomStringUtils.random(length, true, true);
+		int length = 11;
+		String generatedString = "fapp"+RandomStringUtils.random(length, true, true);
 
 		log.debug(">> [generateKey] - Generated code for the new user: " + generatedString);
 		return generatedString;

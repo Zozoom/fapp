@@ -136,7 +136,7 @@ public class HomeController {
             return "redirect:/login?"+regStatus;
         }
         else{
-            emailService.sendMessage(user);
+            emailService.sendActivationEmail(user);
             log.info(">> [reg:"+regStatus+"] - New User - Created | User: "+user.getEmail());
             return "redirect:/login?"+regStatus;
         }

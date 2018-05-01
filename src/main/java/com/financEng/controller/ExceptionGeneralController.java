@@ -21,7 +21,8 @@ public class ExceptionGeneralController {
     @ExceptionHandler
     public String exceptionHandlerNacked(Exception ex, Model model){
 
-        log.info(">> [exception] - Exception General page | Getting error details..");
+        log.info(">> [exception] - Exception page | Show error details in error page.");
+        log.info(">> [exception] - Exception page | "+ex.getMessage()+" - "+ex.getStackTrace());
 
         model.addAttribute("StackTrace",ex.getStackTrace());
         model.addAttribute("Cause",ex.getCause());

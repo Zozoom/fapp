@@ -50,7 +50,8 @@ public class ErrorPageController implements ErrorController {
         RequestAttributes ra = new ServletRequestAttributes(httpReq);
         Map<String,Object> error = this.errorAttributes.getErrorAttributes(ra,true);
 
-        log.info(">> [error] - Error page | Getting error details..");
+        log.info(">> [error] - Error page | Show error details in error page.");
+        log.info(">> [error] - Error page | "+error.get("status")+" - "+error.get("error")+" | "+error.get("message"));
 
         model.addAttribute("timestamp",error.get("timestamp"));
         model.addAttribute("error",error.get("error"));
