@@ -1,6 +1,7 @@
 package com.financEng.controller;
 
 import com.financEng.entity.User;
+import com.financEng.repo.UserRepository;
 import com.financEng.service.EmailService;
 import com.financEng.service.UserService;
 import org.slf4j.Logger;
@@ -29,6 +30,9 @@ public class HomeController {
      * *********************************/
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
+
+    @Autowired
+    private UserRepository userRepository;
 
     private UserService userService;
 
@@ -66,6 +70,18 @@ public class HomeController {
         model.addAttribute("profileDetails",user);
 	    return "index";
 	}
+
+
+    /*********************************************************************
+     * This logout controller responsible for the user Logging out process.
+     * ********************************************************************/
+    @RequestMapping("/logout")
+    public String logout(HttpServletRequest request, HttpServletResponse response){
+        log.info(">> [/logout] - Call logout user.");
+
+        logoutTheUser();
+        return "redirect:/login?logout";
+    }
 
 	/*********************************************************************
      * User profile details page view controller.
@@ -148,9 +164,7 @@ public class HomeController {
      * Get information from the FrontEnd
      * ********************************************************************/
     @RequestMapping(value = "/saveUserChanges", method = RequestMethod.POST)
-    public String saveUserChanges(@ModelAttribute User user, HttpServletRequest request, HttpServletResponse response) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        SecurityContextLogoutHandler sec = new SecurityContextLogoutHandler();
+    public String saveUserChanges(@ModelAttribute User user) {
         String changeStatus="";
 
         log.info(">> [saveUserChanges] - Save User Changes - POST | UserEmail: "+user.getEmail());
@@ -170,7 +184,8 @@ public class HomeController {
         }
 
         log.info(">> [saveUserChanges] - Redirecting and Logging out to the Login page.");
-        sec.logout(request, response, auth);
+
+        logoutTheUser();
         return "redirect:/login?"+changeStatus;
     }
 
@@ -218,11 +233,40 @@ public class HomeController {
 
         if (!(auth instanceof AnonymousAuthenticationToken)){
             user = userService.findByEmail(auth.getName());
+            loginTheUser();
             return userService.findByEmail(auth.getName());
         }
         else {
             return new User();
         }
+    }
+
+    /***********************************************************
+     * The Logout private method
+     * This method set the flag of user loggedIn, and save it
+     * to the database.
+     ***********************************************************/
+    private String logoutTheUser(){
+        log.info(">> [logoutTheUser] - Logout the user...");
+
+        user.setLoggedIn(false);
+        userRepository.save(user);
+
+        return "success_logut";
+    }
+
+    /***********************************************************
+     * The Login private method
+     * This method set the flag of user loggedIn, and save it
+     * to the database.
+     ***********************************************************/
+    private String loginTheUser(){
+        log.info(">> [loginTheUser] - Login the user...");
+
+        user.setLoggedIn(true);
+        userRepository.save(user);
+
+        return "success_login";
     }
 
 }

@@ -63,6 +63,9 @@ public class User {
     @Column(name = "Locked", nullable=false)
     private Boolean locked;
 
+    @Column(name = "LoggedIn", nullable=false)
+    private Boolean loggedIn;
+
     @Column(name = "CreationDate", nullable=false)
     private Date creationDate;
 
@@ -167,6 +170,14 @@ public class User {
         this.expireDate = expireDate;
     }
 
+    public Boolean getLoggedIn() {
+        return loggedIn;
+    }
+
+    public void setLoggedIn(Boolean loggedIn) {
+        this.loggedIn = loggedIn;
+    }
+
     /*==================================================================================================================
      || User Methods
      ==================================================================================================================*/
@@ -198,6 +209,7 @@ public class User {
                 " fName='" + fName +
                 ", sName='" + sName +
                 ", email='" + email +
+                ", loggedIn='" + loggedIn +
                 ", userGender='" + userGender +
                 ", roles=" + getMyRole(roles) +
                 ", enabled=" + enabled +
