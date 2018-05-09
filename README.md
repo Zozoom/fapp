@@ -1,2 +1,1 @@
-# financ
-financ
+# Fapp (Financial Application)
