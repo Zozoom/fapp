@@ -17,5 +17,10 @@ public interface UserService {
     String userActivation(String code);
 
     String genActCodeImplicity();
+
+    String genBCryptCode(String string);
+
+    void logoutUser (User user);
+
 	
 }

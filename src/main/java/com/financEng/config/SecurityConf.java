@@ -1,7 +1,6 @@
 package com.financEng.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -9,26 +8,25 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @EnableGlobalMethodSecurity(securedEnabled = true)
 @Configuration
 public class SecurityConf extends WebSecurityConfigurerAdapter {
 
-//
-//	@Bean
-//	public UserDetailsService userDetailsService() {
-//	    return super.userDetailsService();
-//	}
-
 	@Autowired
 	private UserDetailsService userService;
 
 	@Autowired
-	public void configureAuth(AuthenticationManagerBuilder auth) throws Exception{
-		auth.userDetailsService(userService);
+	public void configureAuth(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder());
 	}
 
-	
+	@Bean
+	public BCryptPasswordEncoder bCryptPasswordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
@@ -37,6 +35,7 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
 				.antMatchers("/registration").permitAll()
 				.antMatchers("/registration/reg").permitAll()
 				.antMatchers("/activation/**").permitAll()
+				.antMatchers("/bcrypt/**").permitAll()
 				.antMatchers("/login/**").permitAll()
 				.anyRequest().authenticated()
 				.and()
@@ -45,7 +44,8 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
 				.permitAll()
 				.and()
 			.logout()
-				.deleteCookies("remove")
+				.clearAuthentication(true)
+				.deleteCookies()
 				.invalidateHttpSession(true)
 				.logoutSuccessUrl("/logout")
 				.permitAll();

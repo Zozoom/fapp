@@ -30,16 +30,16 @@ public class User {
     @Column(name = "ID", unique=true, nullable=false)
 	private Long id;
 
-    @Column(name = "FNAME", nullable=false)
+    @Column(name = "FNAME", nullable=false, length = 45)
     private String fName;
 
-    @Column(name = "SNAME", nullable=false)
+    @Column(name = "SNAME", nullable=false, length = 45)
     private String sName;
 
-    @Column(name = "Email", unique=true, nullable=false)
+    @Column(name = "Email", unique=true, nullable=false, length = 45)
 	private String email;
 
-    @Column(name = "Password", nullable=false)
+    @Column(name = "Password", nullable=false, length = 60)
 	private String password;
 
     @Column(name = "Gender", nullable=false)
@@ -68,6 +68,9 @@ public class User {
 
     @Column(name = "CreationDate", nullable=false)
     private Date creationDate;
+
+    @Column(name = "LastLogin")
+    private Date lastLogin;
 
     @Column(name = "ExpireDate", nullable=false)
     private Date expireDate;
@@ -178,6 +181,14 @@ public class User {
         this.loggedIn = loggedIn;
     }
 
+    public Date getLastLogin() {
+        return lastLogin;
+    }
+
+    public void setLastLogin(Date lastLogin) {
+        this.lastLogin = lastLogin;
+    }
+
     /*==================================================================================================================
      || User Methods
      ==================================================================================================================*/
@@ -210,6 +221,7 @@ public class User {
                 ", sName='" + sName +
                 ", email='" + email +
                 ", loggedIn='" + loggedIn +
+                ", lastLogin='" + lastLogin +
                 ", userGender='" + userGender +
                 ", roles=" + getMyRole(roles) +
                 ", enabled=" + enabled +

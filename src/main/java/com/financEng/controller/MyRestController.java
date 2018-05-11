@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,8 +27,6 @@ public class MyRestController {
 
     @Autowired
     private LogMonitorService logMonitorService;
-
-    private User user;
 
     /*==================================================================================================================
      || Test Rest Controllers
@@ -53,6 +52,21 @@ public class MyRestController {
         log.info(">> [/admin/genCode] - Generate code >>> "+code);
         return "Code is: [" +code+"]";
     }
+
+
+    /*******************************************************************
+     * Send the activation code and verify it with a GET method.
+     * Get information from the FrontEnd
+     * ******************************************************************/
+    @RequestMapping(path = "/bcrypt/{mystring}", method = RequestMethod.GET)
+    public String bcrypt(@PathVariable("mystring") String mystring) {
+        log.info(">> [activation] - Activating with the following code: "+mystring);
+
+        String bcString = userService.genBCryptCode(mystring);
+
+        return "BCrypted string is: [" +bcString+"]";
+    }
+
 
     /***************************************
      * Log Monitor Endpoint
@@ -94,7 +108,7 @@ public class MyRestController {
 
         if (!(auth instanceof AnonymousAuthenticationToken)){
             log.info(">> [/admin/userprofile] - Get the Authenticated user Details. | You can see your details in JSON.");
-            user = userService.findByEmail(auth.getName());
+            User user = userService.findByEmail(auth.getName());
             return user;
         }
         else

@@ -1,7 +1,6 @@
 package com.financEng.controller;
 
 import com.financEng.entity.User;
-import com.financEng.repo.UserRepository;
 import com.financEng.service.EmailService;
 import com.financEng.service.UserService;
 import org.slf4j.Logger;
@@ -30,9 +29,6 @@ public class HomeController {
      * *********************************/
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
-
-    @Autowired
-    private UserRepository userRepository;
 
     private UserService userService;
 
@@ -79,7 +75,8 @@ public class HomeController {
     public String logout(HttpServletRequest request, HttpServletResponse response){
         log.info(">> [/logout] - Call logout user.");
 
-        logoutTheUser();
+        dropAuthUser(request,response);
+
         return "redirect:/login?logout";
     }
 
@@ -164,7 +161,7 @@ public class HomeController {
      * Get information from the FrontEnd
      * ********************************************************************/
     @RequestMapping(value = "/saveUserChanges", method = RequestMethod.POST)
-    public String saveUserChanges(@ModelAttribute User user) {
+    public String saveUserChanges(@ModelAttribute User user, HttpServletRequest request, HttpServletResponse response) {
         String changeStatus="";
 
         log.info(">> [saveUserChanges] - Save User Changes - POST | UserEmail: "+user.getEmail());
@@ -177,15 +174,16 @@ public class HomeController {
             //emailService.sendMessage(user);
         }
         else{
-            log.info(">> [saveUserChanges] - Save User password change | UserEmail: "+user.getEmail());
+            log.info(">> [saveUserChanges] - Save User password change | UserId: "+user.getId());
             changeStatus = userService.saveUserPassword(user);
             //Here comes the Confirmation email type but first email service has to be upgrade.
             //emailService.sendMessage(user);
         }
 
+        dropAuthUser(request,response);
+
         log.info(">> [saveUserChanges] - Redirecting and Logging out to the Login page.");
 
-        logoutTheUser();
         return "redirect:/login?"+changeStatus;
     }
 
@@ -233,8 +231,7 @@ public class HomeController {
 
         if (!(auth instanceof AnonymousAuthenticationToken)){
             user = userService.findByEmail(auth.getName());
-            loginTheUser();
-            return userService.findByEmail(auth.getName());
+            return user;
         }
         else {
             return new User();
@@ -242,31 +239,19 @@ public class HomeController {
     }
 
     /***********************************************************
-     * The Logout private method
-     * This method set the flag of user loggedIn, and save it
-     * to the database.
+     * Get Authenticated User for more details.
+     * This a private method.
      ***********************************************************/
-    private String logoutTheUser(){
-        log.info(">> [logoutTheUser] - Logout the user...");
+    private void dropAuthUser(HttpServletRequest request, HttpServletResponse response){
+        log.info(">> [dropAuthUser] - Clean up auth user...");
 
-        user.setLoggedIn(false);
-        userRepository.save(user);
+        userService.logoutUser(user);
 
-        return "success_logut";
-    }
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null){
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
 
-    /***********************************************************
-     * The Login private method
-     * This method set the flag of user loggedIn, and save it
-     * to the database.
-     ***********************************************************/
-    private String loginTheUser(){
-        log.info(">> [loginTheUser] - Login the user...");
-
-        user.setLoggedIn(true);
-        userRepository.save(user);
-
-        return "success_login";
     }
 
 }
