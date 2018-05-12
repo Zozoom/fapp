@@ -6,66 +6,32 @@
 <body>
 		
 	<div layout:fragment="loginContent">
-		
-		<h2>Welcome Page</h2>
-
-		<table>
-			<tr>
-				<p>Logged user:
-				<span th:text="${profileDetails.fName}+' '+${profileDetails.sName}">Bob</span>
-				</p>
-			</tr>
-			<tr>
-				<p>Roles:
-				<span sec:authentication="principal.authorities">[asd]</span>
-				</p>
-			</tr>
-		</table>
 
 		<br/>
 
+		<h3 class="form-signin-heading">Welcome, today is: <span th:text="${todayDate}"></span></h3>
+
+		<br/>
+
+		<h4>You logged as <span th:text="${profileDetails.fName}+' '+${profileDetails.sName}"></span></h4>
+
+		<h5>Your Role(s) are: <span sec:authentication="principal.authorities"></span></h5>
+
+		<br/>
+
+		<p>Forward informations:</p>
+
         <div sec:authorize="isAuthenticated()">
-            <p>Auth: You are an authenticated user.</p>
+            <p>&emsp; &oplus; You are authenticated.</p>
         </div>
         <div sec:authorize="hasAuthority('ADMIN')">
-			<p>ADMIN ROLE: You have the administrator role.</p>
+			<p>&emsp; &oplus; You have the ADMINISTRATOR role.</p>
         </div>
         <div sec:authorize="hasAuthority('USER')">
-			<p>USER ROLE: You have the user role.</p>
+			<p>&emsp; &oplus; You have the USER role.</p>
         </div>
 
         <br/>
-
-		<h2>Links:</h2>
-
-		<br/>
-
-
-		<p>
-			<a href="/admin/log">/admin/log</a>
-		</p>
-		<p>
-			<a href="/admin/gencode">/admin/gencode</a>
-		</p>
-		<p>
-			<a href="/easteregg">/easteregg</a>
-		</p>
-		<p>
-			<a href="/admin/hello">/admin/hello</a>
-		</p>
-		<p>
-			<a href="/admin/genders">/admin/genders</a>
-		</p>
-		<p>
-			<a href="/admin/userprofile">/admin/userprofile</a>
-		</p>
-		<p>
-			<a href="/asd">404 Error</a>
-		</p>
-		<p>
-			<a href="/exception">Exception</a>
-		</p>
-
 
 	</div>
 

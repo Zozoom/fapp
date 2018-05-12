@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="hu"	layout:decorator="/layouts/main">
+<head>
+	<title>Fapp - Admin Page</title>
+	<link rel="stylesheet" href="/static/css/adminPage.css" th:href="@{/css/adminPage.css}"/>
+</head>
+<body>
+		
+	<div layout:fragment="loginContent">
+
+		<br/>
+
+		<h3 class="form-signin-heading">Welcome, today is: <span th:text="${todayDate}"></span></h3>
+
+		<br/>
+
+		<h3 class="form-signin-heading">Admin Buttons</h3>
+
+		<br/>
+
+		<div class="btnDiv">
+			<button type="button" onclick="window.location.href='/admin/log'">
+				Application Log
+			</button>
+			<button type="button" onclick="window.location.href='/admin/gencode'">
+				Generate Activation Code
+			</button>
+			<button type="button" onclick="window.location.href='/easteregg'">
+				EasterEgg
+			</button>
+			<button type="button" onclick="window.location.href='/admin/hello'">
+				Hello Page (Rest Controller)
+			</button>
+			<button type="button" onclick="window.location.href='/admin/genders'">
+				Genders Json (Rest Controller)
+			</button>
+			<button type="button" onclick="window.location.href='/admin/userprofile'">
+				MyProfile Json (Rest Controller)
+			</button>
+			<button type="button" onclick="window.location.href='/admin/thereisnopage'">
+				404 Error Page
+			</button>
+			<button type="button" onclick="window.location.href='/exception'">
+				Exception Page
+			</button>
+		</div>
+
+	</div>
+
+</body>
+</html>

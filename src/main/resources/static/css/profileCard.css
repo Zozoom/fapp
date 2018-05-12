@@ -4,18 +4,20 @@
     max-width: 500px;
     margin: auto;
     text-align: center;
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: #1771fb1f;
     font-size: 18px;
-    color: #000000;
+    color: white;
 }
 
 .tableLeft{
-    font-size: 17px;
+    font-size: 15px;
     text-align: right;
+    background-color: #0000006e;
+    border-radius: 8px;
 }
 
 .tableRight{
-    font-size: 19px;
+    font-size: 17px;
     text-align: left;
 }
 
@@ -30,62 +32,69 @@
     padding: 5px;
 }
 
-table {
+.card table {
     border-collapse: collapse;
-    width: 85%;
+    width: 95%;
     margin: auto;
 }
 
-th, td {
-    padding: 2px;
-    border-bottom: 1px solid #606060;
+.card table tr{
+    border-bottom: 1px solid #00e4ff7a;
 }
 
-button {
-    border: none;
-    outline: 0;
+.card table th, td{
+    padding: 2px;
+}
+
+.card button {
     display: inline-block;
-    padding: 8px;
-    background-color: #000;
+    font-size: 16px;
+    padding: 6px;
+    margin: 5px 0px 0px 0px;
+    background-color: #3920947d;
     text-align: center;
     cursor: pointer;
+    width: 90%;
+    border: 1px solid #00e4ff7a;
+    border-radius: 8px;
+    transition-duration: 0.4s;
+}
+
+.card button:hover {
+    color: #1870f6;
+    background-color: #f5f5f5bd;
+    transition-duration: 0.4s;
     width: 100%;
-    color: white;
 }
 
-p{
+/* The input fields for Text */
+.card input[type=text] {
+    width: 90%;
+    color: white;
+    padding: 12px 20px;
+    margin:5px;
+    background-color: #1872fac2;
+    border: 1px solid #00e4ff7a;
+    border-radius: 8px;
+}
+
+/* The input fields for Password */
+.card input[type=password] {
+    width: 90%;
+    color: white;
+    padding: 12px 20px;
+    margin: 5px 5px 5px 3%;
+    background-color: #1872fac2;
+    border: 1px solid #00e4ff7a;
+    border-radius: 8px;
+}
+
+.card p{
     padding: 4px;
-    margin: auto !important;
+    margin: auto;
 }
 
-label {
-    margin-bottom: auto !important;
+.card label {
+    margin-bottom: auto;
     padding: 4px;
-    /*font-weight: normal !important;*/
-
-}
-
-div.card a {
-    color: white;
-    text-decoration: none !important;
-}
-
-div.card a:link, a:visited, a:active {
-    color: white;
-    text-decoration: none !important;
-}
-
-div.card button:hover, a:hover{
-    color: white;
-    opacity: 0.7;
-    text-decoration: underline !important;
-}
-
-div.card a.sublinks, a.sublinks:link, a.sublinks:active, a.sublinks:visited{
-    color: #0083a0 !important;
-    text-decoration: none !important;
-}
-
-div.card a.sublinks:hover{
-    font-weight: bold !important;
 }

@@ -5,10 +5,15 @@ body {
   background-position: center;
   background-size: 100% 100%;
 
-  font-family: Comfortaa, sans-serif !important;
+  font-family: Comfortaa, sans-serif;
   font-weight: normal;
   font-size: 16px;
-  color: white !important;
+  color: white ;
+}
+
+label{
+  margin:5px;
+  font-weight:normal;
 }
 
 #frmlogout {
@@ -17,10 +22,7 @@ body {
 
 .navbar {
   margin-top:3%;
-}
-
-label{
-  margin:5px;
+  font-size: 14px;
 }
 
 .navbar.navbar-default{
@@ -30,8 +32,31 @@ label{
   border-radius: 8px;
 }
 
-.checkbox{
-  text-align: center;
+.navbar-default .navbar-text {
+  color:white;
+}
+
+.navbar-default .navbar-nav > li > a {
+  color:white;
+}
+.navbar-default .navbar-nav > li > a:hover{
+  color: #1870f6;
+  background-color: #f5f5f5bd;
+}
+
+.navbar-default .navbar-nav > li.active > a{
+  color:white;
+  background-color: #1870f6;
+}
+
+.navbar-default .navbar-nav > li.active > a:hover{
+  color: #1870f6;
+  background-color: #f5f5f5bd;
+}
+
+.form-inline a{
+  color: #1771f9;
+  text-decoration: none;
 }
 
 .form-signin {
@@ -42,9 +67,21 @@ label{
 }
 
 .form-signin-heading {
-  padding: 5px;
-  margin: auto;
   text-align: center;
+}
+
+/* Logo */
+.logoAtLogin {
+  padding:5px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  max-width:50%;
+}
+
+.logoAtMenu {
+  padding:2px;
+  width:10%;
 }
 
 /* Button div to make it center */
@@ -52,28 +89,40 @@ label{
   text-align:center;
 }
 
-input[type=text],[type=password] {
-  color: black;
-  font-weight: normal;
-  font-size: 15px;
-}
-
 /* The input fields for Text */
 input[type=text] {
-  width: 70%;
+  width: 90%;
+  color: white;
   padding: 12px 20px;
-  border: 1px solid #ccc;
+  margin: 5px;
+  background-color: #1872fac2;
+  border: 1px solid #00e4ff7a;
   border-radius: 8px;
-  margin:5px;
 }
 
 /* The input fields for Password */
 input[type=password] {
-  width: 70%;
+  width: 90%;
+  color: white;
   padding: 12px 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
   margin: 5px 5px 5px 3%;
+  background-color: #1872fac2;
+  border: 1px solid #00e4ff7a;
+  border-radius: 8px;
+}
+
+.form-signin input[type=text], input[type=password] {
+  width: 70%;
+}
+
+.form-signin .loginInputs {
+  text-align: center;
+  margin: 0% 0% 5% -15%;
+}
+
+::placeholder {
+  color: white;
+  opacity: 1;
 }
 
 /* The login button default */
@@ -108,33 +157,33 @@ input[type=password] {
 }
 
 .alert {
-  font-family: Comfortaa, sans-serif !important;
+  font-family: Comfortaa, sans-serif ;
   font-weight: normal;
   font-size: 14px;
   text-align: center;
-  color: white !important;
-  padding: 10px !important;
+  color: white ;
+  padding: 10px ;
 }
 
 .alert-danger {
-  background-color: #ff00008c !important;
-  border-color:#f5f5f59e !important;
-  border: 1px solid !important;
-  border-radius: 8px !important;
+  background-color: #ff00008c ;
+  border-color:#f5f5f59e ;
+  border: 1px solid ;
+  border-radius: 8px ;
 }
 
 .alert-warning {
-  background-color: rgba(255, 255, 0, 0.55) !important;
-  border-color:#f5f5f59e !important;
-  border: 1px solid !important;
-  border-radius: 8px !important;
+  background-color: rgba(255, 255, 0, 0.55) ;
+  border-color:#f5f5f59e ;
+  border: 1px solid ;
+  border-radius: 8px ;
 }
 
 .alert-success {
-  background-color: #00ff078c !important;
-  border-color:#f5f5f59e !important;
-  border: 1px solid !important;
-  border-radius: 8px !important;
+  background-color: #00ff078c ;
+  border-color:#f5f5f59e ;
+  border: 1px solid ;
+  border-radius: 8px ;
 }
 
 .errorPage{
@@ -150,7 +199,7 @@ input[type=password] {
   text-align:center;
 }
 
-footer{
+footer {
   background-color: #08080859;
   border-color:#f5f5f59e;
   border: 1px solid;
@@ -159,4 +208,21 @@ footer{
   font-size: 14px;
   text-align: center;
   margin-bottom:3%;
+}
+
+footer a{
+  color: #1771f9;
+  text-decoration: none;
+  font-size: 14px;
+  transition-duration: 0.4s;
+}
+
+footer a:hover{
+  color: #3700ff;
+  background-color: #ffffffb8;
+  border-radius: 4px ;
+
+  font-size: 16px;
+  text-decoration: underline;
+  transition-duration: 0.4s;
 }

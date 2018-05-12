@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Controller
 public class HomeController {
@@ -64,8 +66,21 @@ public class HomeController {
         log.info(">> [/] - Home page");
         getBackAuthUser();
         model.addAttribute("profileDetails",user);
+        model.addAttribute("todayDate",getActualDate("yyyy.MM.dd HH:mm:ss"));
 	    return "index";
 	}
+
+
+    /*********************************************************************
+     * Admin Page You can use the Pilot stuff.
+     * ********************************************************************/
+    @RequestMapping("/admin")
+    public String admin(Model model){
+        log.info(">> [/admin] - Admin page");
+        model.addAttribute("profileDetails",user);
+        model.addAttribute("todayDate",getActualDate("yyyy.MM.dd HH:mm:ss"));
+        return "admin";
+    }
 
 
     /*********************************************************************
@@ -220,6 +235,16 @@ public class HomeController {
     /*==================================================================================================================
      || Private methods | Helpers
      ==================================================================================================================*/
+
+    /***********************************************************
+     * Simple get Actual Date with a simple format.
+     * You have to give the Date format to the method.
+     * "yyyy/MM/dd HH:mm:ss"
+     ***********************************************************/
+    private String getActualDate(String format){
+        SimpleDateFormat dateFormat = new SimpleDateFormat(format);
+        return dateFormat.format(new Date());
+    }
 
     /***********************************************************
      * Get Authenticated User for more details.

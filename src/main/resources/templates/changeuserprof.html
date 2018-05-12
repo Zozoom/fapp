@@ -3,6 +3,7 @@
 
 <head>
     <link rel="stylesheet" href="/static/css/profileCard.css" th:href="@{/css/profileCard.css}"/>
+    <link rel="stylesheet" href="/static/css/dropDown.css" th:href="@{/css/dropDown.css}"/>
 </head>
 
 <body>
@@ -66,22 +67,12 @@
                                 <label>Change Password:</label>
                             </td>
                             <td class="tableRight">
-                                <a href="/changeuserpass" class="sublinks">Click here!</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="tableLeft">
-                                <label>Extend Exp Date:</label>
-                            </td>
-                            <td class="tableRight">
-                                <a href="/extendexpiration" class="sublinks">
-                                    Click here!
-                                </a>
+                                <button type="button" onclick="window.location.href='/changeuserpass'">
+                                    ChangePass
+                                </button>
                             </td>
                         </tr>
                     </table>
-
-                    <br/><br/>
 
                     <div>
                         <button type="submit">

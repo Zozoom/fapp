@@ -9,9 +9,9 @@
 
 	<div layout:fragment="loginContent">
 
-		<br/><br/>
+		<img class="logoAtLogin" th:src="@{/images/fapp/fapp_Logo.png}" alt="Logo" />
 
-		<h2 class="form-signin-heading">&#8810;&#8810; Please Login &#8811;&#8811;</h2>
+		<h3 class="form-signin-heading">Welcome at the Fapp Site. Please login.</h3>
 
 		<br/>
 
@@ -30,24 +30,19 @@
 
 			<!--Action Section-->
 
-			<label for="username">User Email:</label>
-			<input type="text" id="username" name="username" placeholder="User email" required="required" />
+			<div class="loginInputs">
+				<label for="username">User Email:</label>
+				<input type="text" id="username" name="username" placeholder="User email" required="required" />
 
-			<label for="password">Password:</label>
-			<input type="password" id="password" name="password" placeholder="Password" required="required" />
-
-
-			<br/>
-			<label class="chcontainer">Remember me
-				<input type="checkbox" />
-				<span class="checkmark"></span>
-			</label>
-			<br/>
+				<label for="password">Password:</label>
+				<input type="password" id="password" name="password" placeholder="Password" required="required" />
+			</div>
 
 			<div class="btnDiv">
 				<button class="loginBtn" type="submit">Login</button>
 			</div>
-			<br/>
+
+			<h5 class="form-signin-heading">Or if you don't have any account create here: </h5>
 
 			<div class="btnDiv">
 				<button class="loginBtn" type="button" onclick="window.location.href='/registration'" >Create a new account.</button>

@@ -8,10 +8,10 @@
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
 	<link rel="stylesheet" href="/static/css/main.css" th:href="@{/css/main.css}"/>
 	<link rel="stylesheet" href="/static/css/checkbox.css" th:href="@{/css/checkbox.css}"/>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
 	<link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet' type='text/css' />
 
 	<!--[if lt IE 9]>
@@ -29,15 +29,19 @@
 	<div class="container">
 		<nav class="navbar navbar-default">
 		    <div class="container-fluid">
-		       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+		        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<img sec:authorize="isAuthenticated()" class="logoAtMenu navbar-left" th:src="@{/images/fapp/fapp_Logo.png}" alt="Logo" />
 				    <ul class="nav navbar-nav" sec:authorize="isAuthenticated()">
-				        <li class="active"><a href="/">Home Page</a></li>
-						<li class=""><a href="/userprofile">User Profile</a></li>
+				        <li><a href="/">Home Page</a></li>
+						<li><a href="/userprofile">My Profile</a></li>
+						<li><a href="/">Users List</a></li>
+						<li><a href="/">I dunno</a></li>
+						<li><a href="/admin">Admin</a></li>
 				    </ul>
 				    <div class="navbar-text navbar-right" >
-				    Welcome dear <span th:text="${profileDetails}== null ? 'Guest' : ${profileDetails.fName}+' '+${profileDetails.sName}"> Guest </span> !
+				    Welcome dear <span th:text="${profileDetails}== null ? 'Guest' : ${profileDetails.fName}+' '+${profileDetails.sName}"> Guest </span>
 			           <form sec:authorize="isAuthenticated()" id="frmlogout" th:action="@{/logout}" method="post" class="form-inline">
-                           <a href="javascript:{}" onclick="document.getElementById('frmlogout').submit(); return false;">Logout</a>
+                           | <a href="javascript:{}" onclick="document.getElementById('frmlogout').submit(); return false;">Logout</a>
 				      </form>
 				    </div>
 				</div>
