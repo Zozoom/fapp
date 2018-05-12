@@ -143,7 +143,7 @@ public class EmailService {
     /*************************************
      * Read Html Template File
      * ***********************************/
-    private static String readFile() throws IOException {
+    private String readFile() throws IOException {
         String fileName = "./src/main/resources/static/emailTemps/activationTemp.html";
         BufferedReader reader = new BufferedReader(new FileReader(fileName));
         StringBuilder contents = new StringBuilder();
@@ -157,14 +157,14 @@ public class EmailService {
         } finally {
             reader.close();
         }
-        System.out.println("READFILE DONE");
+        log.info(">> [readFile] - Read Html Template File -> Done");
         return contents.toString();
     }
 
     /*************************************
      * Read Html Template File
      * ***********************************/
-    private static String readHtml(Map<String, String> input) throws IOException {
+    private String readHtml(Map<String, String> input) throws IOException {
         String msg = readFile();
 
         Set<Map.Entry<String, String>> entries = input.entrySet();
@@ -172,7 +172,7 @@ public class EmailService {
         for (Map.Entry<String, String> entry : entries) {
             msg = msg.replace(entry.getKey().trim(), entry.getValue().trim());
         }
-        System.out.println("Read HTML and Swapping...");
+        log.info(">> [readHtml] - Read HTML and Swapping... -> Done");
         return msg;
     }
 }

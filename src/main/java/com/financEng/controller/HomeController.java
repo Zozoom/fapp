@@ -86,7 +86,7 @@ public class HomeController {
      * ********************************************************************/
     @RequestMapping("/userprofile")
     public String userprofile(Model model){
-        log.info(">> [userprofile] - User Profile | GetAutUser: "+user.toString());
+        log.info(">> [userprofile] - User Profile | GetAutUser: {}", user.toString());
         model.addAttribute("profileDetails",user);
         return "userprofile";
     }
@@ -97,7 +97,7 @@ public class HomeController {
      * ********************************************************************/
     @RequestMapping("/changeuserprof")
     public String saveModifiedUserDetails(Model model){
-        log.info(">> [changeuserprof] - Change User Profile | GetAutUser: "+user.toString());
+        log.info(">> [changeuserprof] - Change User Profile | GetAutUser: {}", user.toString());
         model.addAttribute("profileDetails",user);
         model.addAttribute("genders",User.Gender.values());
         return "changeuserprof";
@@ -109,7 +109,7 @@ public class HomeController {
      * ********************************************************************/
     @RequestMapping("/changeuserpass")
     public String saveModifiedUserPasswrod(Model model){
-        log.info(">> [changeuserpass] - Change User Password | GetAutUser: "+user.toString());
+        log.info(">> [changeuserpass] - Change User Password | GetAutUser: {}", user.toString());
         model.addAttribute("profileDetails",user);
         model.addAttribute("genders",User.Gender.values());
         return "changeuserpass";
@@ -138,8 +138,8 @@ public class HomeController {
      * ********************************************************************/
     @RequestMapping(value = "/registration/reg", method = RequestMethod.POST)
     public String reg(@ModelAttribute User user) {
-        log.info(">> [reg] - User Registration - POST | NewUserEmail: "+user.getEmail());
-        log.debug(">> [reg] - User Registration - POST | NewUserDetails: "+user.toString());
+        log.info(">> [reg] - User Registration - POST | NewUserEmail: {}", user.getEmail());
+        log.debug(">> [reg] - User Registration - POST | NewUserDetails: {}", user.toString());
 
         String regStatus;
         regStatus = userService.registerUser(user);
@@ -150,7 +150,7 @@ public class HomeController {
         }
         else{
             emailService.sendActivationEmail(user);
-            log.info(">> [reg:"+regStatus+"] - New User - Created | User: "+user.getEmail());
+            log.info(">> [reg:"+regStatus+"] - New User - Created | User: {}", user.getEmail());
             return "redirect:/login?"+regStatus;
         }
 
@@ -164,17 +164,17 @@ public class HomeController {
     public String saveUserChanges(@ModelAttribute User user, HttpServletRequest request, HttpServletResponse response) {
         String changeStatus="";
 
-        log.info(">> [saveUserChanges] - Save User Changes - POST | UserEmail: "+user.getEmail());
-        log.debug(">> [saveUserChanges] - Save User Changes - POST | UserDetails: "+user.toString());
+        log.info(">> [saveUserChanges] - Save User Changes - POST | UserEmail: {}", user.getEmail());
+        log.debug(">> [saveUserChanges] - Save User Changes - POST | UserDetails: {}", user.toString());
 
         if(user.getPassword() == null){
-            log.info(">> [saveUserChanges] - Save User detail changes | UserEmail: "+user.getEmail());
+            log.info(">> [saveUserChanges] - Save User detail changes | UserEmail: {}", user.getEmail());
             changeStatus = userService.saveUserModify(user);
             //Here comes the Confirmation email type but first email service has to be upgrade.
             //emailService.sendMessage(user);
         }
         else{
-            log.info(">> [saveUserChanges] - Save User password change | UserId: "+user.getId());
+            log.info(">> [saveUserChanges] - Save User password change | UserId: {}", user.getId());
             changeStatus = userService.saveUserPassword(user);
             //Here comes the Confirmation email type but first email service has to be upgrade.
             //emailService.sendMessage(user);

@@ -41,7 +41,6 @@ public class MyRestController {
         return "Hello";
     }
 
-
     /***************************************
      * Code generator Tester
      * **************************************/
@@ -49,10 +48,9 @@ public class MyRestController {
     public String gencode() {
         String code;
         code = userService.genActCodeImplicity();
-        log.info(">> [/admin/genCode] - Generate code >>> "+code);
+        log.info(">> [/admin/genCode] - Generate code >>> {}", code);
         return "Code is: [" +code+"]";
     }
-
 
     /*******************************************************************
      * Send the activation code and verify it with a GET method.
@@ -60,13 +58,12 @@ public class MyRestController {
      * ******************************************************************/
     @RequestMapping(path = "/bcrypt/{mystring}", method = RequestMethod.GET)
     public String bcrypt(@PathVariable("mystring") String mystring) {
-        log.info(">> [activation] - Activating with the following code: "+mystring);
+        log.info(">> [activation] - Activating with the following code: {}", mystring);
 
         String bcString = userService.genBCryptCode(mystring);
 
         return "BCrypted string is: [" +bcString+"]";
     }
-
 
     /***************************************
      * Log Monitor Endpoint
@@ -76,7 +73,6 @@ public class MyRestController {
         return logMonitorService.getLogMonitor();
     }
 
-
     /***************************************
      * Simple Exception
      * **************************************/
@@ -84,7 +80,7 @@ public class MyRestController {
     public String getExceptionTemplate() throws Exception {
         String exceptMessage = "This is an exception message";
         if(true){
-            log.info(">> [/exception] - This endpoint throw EXCEPTION. | "+exceptMessage);
+            log.info(">> [/exception] - This endpoint throw EXCEPTION. | {}", exceptMessage);
             throw new Exception(exceptMessage);
         }
         return "exception";

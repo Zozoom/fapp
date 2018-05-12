@@ -53,16 +53,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		User user = findByEmail(userEmail);
 
 		if (user == null) {
-            log.error(">> [loadUserByUsername] - Error cannot found USER: "+userEmail);
+            log.error(">> [loadUserByUsername] - Error cannot found USER: {}", userEmail);
 			throw new UsernameNotFoundException(userEmail);
 		}
 
 		if(user.getActivation().isEmpty()){
-			log.info(">> [loadUserByUsername] - Access Granted for: "+user.getEmail());
+			log.info(">> [loadUserByUsername] - Access Granted for: {}", user.getEmail());
 		}
 		else{
 			log.info(">> [loadUserByUsername] - WARN! Login User: "+user.getEmail()+" | This user not activated !");
-			log.debug(">> [loadUserByUsername] - WARN! User activation code: "+user.getActivation());
+			log.debug(">> [loadUserByUsername] - WARN! User activation code: {}", user.getActivation());
 			try {
 				throw new Exception("User Access Denied! "+user.getEmail());
 			} catch (Exception e) {
@@ -101,7 +101,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     	/** Check the user is not exist yet. **/
 		if (userRepository.findByEmail(userToRegister.getEmail()) != null) {
-			log.error(">> [registerUser] - Error user already exist: "+userToRegister.getEmail());
+			log.error(">> [registerUser] - Error user already exist: {}", userToRegister.getEmail());
 			return "user_exist_error";
 		}
 
@@ -121,24 +121,24 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 		/** User Enabled **/
 		userToRegister.setEnabled(false);
-		log.debug(">> [registerUser] - User Enabled: "+userToRegister.getEnabled());
+		log.debug(">> [registerUser] - User Enabled: {}", userToRegister.getEnabled());
 
 		/** User Locked **/
 		userToRegister.setLocked(false);
-		log.debug(">> [registerUser] - User Locked: "+userToRegister.getLocked());
+		log.debug(">> [registerUser] - User Locked: {}", userToRegister.getLocked());
 
 		/** User LoggedIn **/
 		userToRegister.setLoggedIn(false);
-		log.debug(">> [registerUser] - User LoggedIn: "+userToRegister.getLoggedIn());
+		log.debug(">> [registerUser] - User LoggedIn: {}", userToRegister.getLoggedIn());
 
 		/** User Password Encode **/
 		userToRegister.setPassword(passwordEncoder.encode(userToRegister.getPassword()));
-		log.debug(">> [registerUser] - User Password: "+userToRegister.getPassword());
+		log.debug(">> [registerUser] - User Password: {}", userToRegister.getPassword());
 
 		/** User Creation Date **/
 		Date createDate = new Date();
 		userToRegister.setCreationDate(createDate);
-		log.debug(">> [registerUser] - User Creation Date: "+userToRegister.getCreationDate());
+		log.debug(">> [registerUser] - User Creation Date: {}", userToRegister.getCreationDate());
 
 		/** User Expire Date Calculation **/
 		Calendar c = Calendar.getInstance();
@@ -148,11 +148,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 		/** User Expire Date Set**/
 		userToRegister.setExpireDate(expireDate);
-		log.debug(">> [registerUser] - User Expire Date: "+userToRegister.getExpireDate());
+		log.debug(">> [registerUser] - User Expire Date: {}", userToRegister.getExpireDate());
 
 		/** User Activation **/
 		userToRegister.setActivation(generateKey());
-		log.debug(">> [registerUser] - User Activation Code: "+userToRegister.getActivation());
+		log.debug(">> [registerUser] - User Activation Code: {}", userToRegister.getActivation());
 
 		/** User Save **/
 		try{
@@ -179,7 +179,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 		/** Check the user is exist. Unee = 'User not exist error' **/
 		if (modifiedUser == null) {
-			log.error(">> [saveUserModify] - Error cannot found USER: "+userToModify.getEmail());
+			log.error(">> [saveUserModify] - Error cannot found USER: {}", userToModify.getEmail());
 			return "unee";
 		}
 
@@ -188,7 +188,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 			log.error(">> [saveUserModify] - User First Name is empty.");
 		}
         modifiedUser.setfName(userToModify.getfName());
-		log.debug(">> [saveUserModify] - Change User Fist Name: "+modifiedUser.getfName());
+		log.debug(">> [saveUserModify] - Change User Fist Name: {}", modifiedUser.getfName());
 
 
 		/** User SName **/
@@ -196,7 +196,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 			log.error(">> [saveUserModify] - User Second Name is empty.");
 		}
 		modifiedUser.setsName(userToModify.getsName());
-		log.debug(">> [saveUserModify] - Change User Second Name: "+modifiedUser.getsName());
+		log.debug(">> [saveUserModify] - Change User Second Name: {}", modifiedUser.getsName());
 
 
 		/** User Email **/
@@ -204,7 +204,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 			log.error(">> [saveUserModify] - User Email is empty.");
 		}
 		modifiedUser.setEmail(userToModify.getEmail());
-		log.debug(">> [saveUserModify] - Change User Email: "+modifiedUser.getEmail());
+		log.debug(">> [saveUserModify] - Change User Email: {}", modifiedUser.getEmail());
 
 
 		/** User User Gender **/
@@ -212,7 +212,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 			log.error(">> [saveUserModify] - User User Gender is empty.");
 		}
 		modifiedUser.setUserGender(userToModify.getUserGender());
-		log.debug(">> [saveUserModify] - Change User Gender: "+modifiedUser.getUserGender());
+		log.debug(">> [saveUserModify] - Change User Gender: {}", modifiedUser.getUserGender());
 
 		/** User Save **/
 		try{
@@ -239,7 +239,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 		/** Check the user is exist. Unee = 'User not exist error' **/
 		if (modifiedUser == null) {
-			log.error(">> [saveUserPassword] - Error cannot found USER: "+userToModify.getEmail());
+			log.error(">> [saveUserPassword] - Error cannot found USER: {}", userToModify.getEmail());
 			return "unee";
 		}
 
@@ -248,7 +248,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 			log.error(">> [saveUserPassword] - User Password is empty.");
 		}
 		modifiedUser.setPassword(passwordEncoder.encode(userToModify.getPassword()));
-		log.debug(">> [saveUserPassword] - Change User Password: "+modifiedUser.getPassword());
+		log.debug(">> [saveUserPassword] - Change User Password: {}", modifiedUser.getPassword());
 
 		/** User Save **/
 		try{
@@ -337,7 +337,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		int length = 11;
 		String generatedString = "fapp"+RandomStringUtils.random(length, true, true);
 
-		log.debug(">> [generateKey] - Generated code for the new user: " + generatedString);
+		log.debug(">> [generateKey] - Generated code for the new user: {}", generatedString);
 		return generatedString;
     }
 
@@ -348,7 +348,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 		String generatedString = passwordEncoder.encode(string);
 
-		log.debug(">> [bycrypt] - Generated bycrypt code: " + generatedString);
+		log.debug(">> [bycrypt] - Generated bycrypt code: {}", generatedString);
 
 		return generatedString;
 	}
