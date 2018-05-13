@@ -6,6 +6,9 @@ import com.financEng.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,6 +26,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Controller
+@EnableScheduling
 public class HomeController {
 
     /***********************************
@@ -31,6 +35,8 @@ public class HomeController {
      * *********************************/
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
+
+    private static final int timeOut = 15;
 
     private UserService userService;
 
@@ -62,9 +68,12 @@ public class HomeController {
      * getBackAuthUser(); method setup the authenticated user. IMPORTANT!
      * ********************************************************************/
 	@RequestMapping("/")
-	public String home(Model model){
+	public String home(Model model) throws Exception {
         log.info(">> [/] - Home page");
+
+        // Get who is the User is
         getBackAuthUser();
+
         model.addAttribute("profileDetails",user);
         model.addAttribute("todayDate",getActualDate("yyyy.MM.dd HH:mm:ss"));
 	    return "index";
@@ -259,7 +268,8 @@ public class HomeController {
             return user;
         }
         else {
-            return new User();
+            log.warn(">> [getBackAuthUser] - There is no user logged in.");
+            return null;
         }
     }
 
@@ -272,11 +282,22 @@ public class HomeController {
 
         userService.logoutUser(user);
 
+        System.out.println("RESPONSE: "+response.getStatus());
+
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null){
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
 
     }
+
+    @Scheduled(fixedDelay = (1000*60*timeOut))
+    private void valami(){
+        if(user != null && user.getLoggedIn()){
+            log.info(">> [valami] - Trying logout the user.");
+            userService.logoutUser(user);
+        }
+    }
+
 
 }
