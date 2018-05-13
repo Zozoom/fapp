@@ -282,8 +282,6 @@ public class HomeController {
 
         userService.logoutUser(user);
 
-        System.out.println("RESPONSE: "+response.getStatus());
-
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null){
             new SecurityContextLogoutHandler().logout(request, response, auth);
@@ -291,11 +289,16 @@ public class HomeController {
 
     }
 
+    /***********************************************************
+     * Logout User Flag changer
+     * Run pararell with the Server Time Out and set the flag
+     * to FALSE.
+     ***********************************************************/
     @Scheduled(fixedDelay = (1000*60*timeOut))
-    private void valami(){
+    private void autoUserLogoutFlagger(){
         if(user != null && user.getLoggedIn()){
-            log.info(">> [valami] - Trying logout the user.");
             userService.logoutUser(user);
+            log.info(">> [autoUserLogoutFlagger] - You are logged out.");
         }
     }
 

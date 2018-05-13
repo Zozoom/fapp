@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @EnableGlobalMethodSecurity(securedEnabled = true)
 @Configuration
@@ -30,6 +31,7 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
+            .csrf().disable()
 			.authorizeRequests()
 				.antMatchers("/admin/**").hasAuthority("ADMIN")
 				.antMatchers("/registration").permitAll()
@@ -44,11 +46,13 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
 				.permitAll()
 				.and()
 			.logout()
-				.clearAuthentication(true)
-				.deleteCookies()
-				.invalidateHttpSession(true)
-				.logoutSuccessUrl("/logout")
-				.permitAll();
-	}	
+                .clearAuthentication(true)
+                .deleteCookies()
+                .invalidateHttpSession(true)
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .permitAll();
+//                .logoutUrl("/logout")
+//                .logoutSuccessUrl("/logout")
+    }
 	
 }
