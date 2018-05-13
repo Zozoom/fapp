@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="hu"	layout:decorator="/layouts/main">
+<head>
+	<title>Fapp - Upload Page</title>
+</head>
+<body>
+		
+	<div layout:fragment="loginContent">
+
+		<br/>
+		<h3 class="form-signin-heading">Please Upload your file:</h3>
+		<br/>
+
+        <form method="POST" action="/singleFileUpload" enctype="multipart/form-data">
+            <table>
+                <tr>
+                    <td><form:label path="file">Select a file to upload</form:label></td>
+                    <td><input type="file" name="file" /></td>
+                </tr>
+                <br/>
+                <tr>
+                    <td><input type="submit" value="Upload" /></td>
+                </tr>
+            </table>
+        </form>
+
+	</div>
+
+</body>
+</html>

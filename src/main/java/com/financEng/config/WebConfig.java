@@ -2,6 +2,7 @@ package com.financEng.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -27,4 +28,5 @@ public class WebConfig extends WebMvcConfigurerAdapter {
                         "classpath:/static/css/",
                         "classpath:/static/js/");
     }
+
 }
