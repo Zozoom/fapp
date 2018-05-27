@@ -19,6 +19,14 @@ public class FinancApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(FinancApplication.class, args);
+
+        System.out.println("\n******************* Fapp Application Enviroment Variables *************************\n");
+        System.out.println("qa_master_user:     ["+System.getenv("qa_master_user")+"]");
+        System.out.println("qa_master_password: ["+System.getenv("qa_master_password")+"]");
+        System.out.println("qa_email_address:   ["+System.getenv("qa_email_address")+"]");
+        System.out.println("qa_email_password:  ["+System.getenv("qa_email_password")+"]");
+        System.out.println("\n***********************************************************************************\n");
+
 		log.info("||////////////////////////////////////////////////////////////////////////////////////////||");
 		log.info("||                           FAPP (Financial Application)                                 ||");
 		log.info("||                             Created by Zoltan Kiss                                     ||");
